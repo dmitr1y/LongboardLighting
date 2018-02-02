@@ -16,14 +16,30 @@
             android:theme="@style/AppTheme.AppBarOverlay"
             android:id="@+id/headerView"
             tools:layout_editor_absoluteX="3dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="24sp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/headerText" />
 
             <ProgressBar
                 android:id="@+id/toolbar_progress_bar"
+                style="@style/Widget.AppCompat.ProgressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:indeterminateTint="#795548"
-                android:indeterminateTintMode="src_in" />
+                android:indeterminateTint="@color/colorAccent"
+                android:indeterminateTintMode="src_in"
+                android:max="100" />
+            </LinearLayout>
 
 
         </android.support.design.widget.AppBarLayout>
