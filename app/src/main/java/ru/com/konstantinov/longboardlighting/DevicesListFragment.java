@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,8 @@ import ru.com.konstantinov.longboardlighting.dummy.TestFinder;
 
 public class DevicesListFragment extends ListFragment {
 
+    private BluetoothDevice[] foundedDeviceArray;
+
     public DevicesListFragment() {
         // Required empty public constructor
     }
@@ -26,10 +29,16 @@ public class DevicesListFragment extends ListFragment {
         DeviceFinder deviceFinder = new TestFinder();
 
         Set<BluetoothDevice> foundDevices = deviceFinder.getBondedDevices();
+        this.foundedDeviceArray = foundDevices.toArray(new BluetoothDevice[foundDevices.size()]);
+
         List<String> deviceList = new ArrayList<String>();
 
-        for (BluetoothDevice bt : foundDevices)
-            deviceList.add(bt.getName());
+        if (foundDevices.size() > 0) {
+
+            for (int i = 0; i < this.foundedDeviceArray.length; i++) {
+                deviceList.add(this.foundedDeviceArray[i].getName() + "\n" + this.foundedDeviceArray[i].getAddress());
+            }
+        }
 
         super.onActivityCreated(savedInstanceState);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
