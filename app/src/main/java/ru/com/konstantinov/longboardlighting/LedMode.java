@@ -1,5 +1,9 @@
 package ru.com.konstantinov.longboardlighting;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
+
 /**
  * Created by ceyler on 09.02.2018.
  * Modes enum
@@ -71,5 +75,13 @@ public enum LedMode {
     @Override
     public String toString(){
         return this.name;
+    }
+
+    public static LedMode getModeByName(@NotNull String name){
+        for (LedMode mode : LedMode.values()) {
+            if(Objects.equals(mode.toString(), name))
+                return mode;
+        }
+        return null; //Can't find mode with this name
     }
 }

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -37,7 +38,9 @@ public class ModesListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         //Do your stuff..
-        Toast.makeText(getActivity(),"clicked to "+Integer.toString(position),Toast.LENGTH_SHORT).show();
+        TextView textView = (TextView) v;
+        String itemText = textView.getText().toString(); // получаем текст нажатого элемента
+        Toast.makeText(getActivity(),"выбран: "+Integer.toString(position)+" - "+LedMode.getModeByName(itemText).getCode(),Toast.LENGTH_SHORT).show();
     }
 
     public static String[] getNames(Class<? extends Enum<?>> e) {
