@@ -2,8 +2,5 @@
     <string name="app_name">Longboard Lighting</string>
     <string name="headerText">Заголовок</string>
     <string name="action_settings">Выбор устройства</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_modes">Режимы</string>
 </resources>

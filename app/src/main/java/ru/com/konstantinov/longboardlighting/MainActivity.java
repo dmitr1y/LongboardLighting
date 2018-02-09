@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.device_list= (View) findViewById(R.id.devices_list_view);
-        this.mode_list= (View) findViewById(R.id.modes_list_view);
+        this.device_list = (View) findViewById(R.id.devices_list_view);
+        this.mode_list = (View) findViewById(R.id.modes_list_view);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_devices:
                 this.device_list.setVisibility(View.VISIBLE);
                 this.mode_list.setVisibility(View.GONE);
