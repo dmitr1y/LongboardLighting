@@ -1,6 +1,7 @@
 package ru.com.konstantinov.longboardlighting;
 
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -18,7 +19,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import ru.com.konstantinov.longboardlighting.connector.Finder;
+import ru.com.konstantinov.longboardlighting.interfaces.ActionListener;
 import ru.com.konstantinov.longboardlighting.interfaces.ActivityResultSubscriber;
+import ru.com.konstantinov.longboardlighting.interfaces.DeviceFinder;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private View mode_list;
     private View device_list;
     private TextView headerText;
+    private DeviceFinder deviceFinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,23 @@ public class MainActivity extends AppCompatActivity {
         this.mode_list = findViewById(R.id.modes_list_view);
         this.headerText = findViewById(R.id.headerText);
         this.headerText.setText(R.string.action_devices);
+//        TODO complete handler
+        this.deviceFinder = new Finder(this, new ActionListener() {
+            @Override
+            public void onAction(int action) {
+                switch (action) {
+                    case BluetoothAdapter.ERROR:
+                        break;
+                    case BluetoothAdapter.STATE_ON:
+                        break;
+                    case BluetoothAdapter.STATE_OFF:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
 
         //TODO check connection state of device, if not connected then hide
         CircularProgressBar batteryProgressBar = findViewById(R.id.battery_progress_bar);
@@ -86,11 +108,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void subscribeOnActivityResult(@NotNull ActivityResultSubscriber subscriber, int requestCode){
+    public void subscribeOnActivityResult(@NotNull ActivityResultSubscriber subscriber, int requestCode) {
         subscribers.put(subscriber, requestCode);
     }
 
-    public void unsubscribeFromActivityResult(@NotNull ActivityResultSubscriber subscriber){
+    public void unsubscribeFromActivityResult(@NotNull ActivityResultSubscriber subscriber) {
         subscribers.remove(subscriber);
     }
 
@@ -98,9 +120,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        for(ActivityResultSubscriber subscriber : subscribers.keySet()){
-            if(subscribers.get(subscriber) == requestCode)
+        for (ActivityResultSubscriber subscriber : subscribers.keySet()) {
+            if (subscribers.get(subscriber) == requestCode)
                 subscriber.onActivityResult(resultCode, data); // call all subscribers with this request code
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        this.deviceFinder.onActivityDestroy(this);
+        super.onDestroy();
     }
 }

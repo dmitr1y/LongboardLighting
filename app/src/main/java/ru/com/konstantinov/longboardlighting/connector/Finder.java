@@ -29,7 +29,7 @@ public class Finder implements DeviceFinder, ActivityResultSubscriber {
     private final ActionListener listener;
     private final BroadcastReceiver bluetoothStateReceiver;
 
-    public Finder(final MainActivity activity, final ActionListener bluetoothActionsListener) throws IllegalStateException, InterruptedException {
+    public Finder(final MainActivity activity, final ActionListener bluetoothActionsListener) {
         this.listener = bluetoothActionsListener;
 
         this.bluetoothStateReceiver = new BroadcastReceiver() {
