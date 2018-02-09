@@ -56,7 +56,15 @@
         </android.support.design.widget.AppBarLayout>
 
         <include
-            android:id="@+id/fragment_itemmode_view"
+            android:id="@+id/device_list_view"
+            layout="@layout/fragment_devices_list"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/headerView"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/modes_list_view"
             layout="@layout/fragment_modes_list"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
