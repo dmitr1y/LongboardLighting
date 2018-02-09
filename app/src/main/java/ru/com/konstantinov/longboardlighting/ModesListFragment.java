@@ -41,6 +41,8 @@ public class ModesListFragment extends ListFragment {
         TextView textView = (TextView) v;
         String itemText = textView.getText().toString(); // получаем текст нажатого элемента
         Toast.makeText(getActivity(),"выбран: "+Integer.toString(position)+" - "+LedMode.getModeByName(itemText).getCode(),Toast.LENGTH_SHORT).show();
+        TestConnector connector=new TestConnector();
+        connector.setMode(LedMode.getModeByName(itemText));
     }
 
     public static String[] getNames(Class<? extends Enum<?>> e) {

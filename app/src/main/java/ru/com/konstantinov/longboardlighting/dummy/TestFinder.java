@@ -1,5 +1,6 @@
 package ru.com.konstantinov.longboardlighting.dummy;
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.util.Log;
 
@@ -23,7 +24,9 @@ public class TestFinder implements DeviceFinder {
     @Override
     public void startDeviceSearching() {
         for(FoundDeviceHandler handler : subscribers){
-            handler.onDeviceFound(null); // can't create device, sorry
+            for(BluetoothDevice device : BluetoothAdapter.getDefaultAdapter().getBondedDevices()){
+                handler.onDeviceFound(device);
+            }
         }
     }
 
@@ -39,7 +42,7 @@ public class TestFinder implements DeviceFinder {
 
     @Override
     public boolean ConnectToDevice(@NotNull BluetoothDevice device) {
-        Log.i(this.tag, "Let's say, I connected");
+        Log.i(this.tag, "Let's say, I connected to " + device.getName());
         return true;
     }
 }
