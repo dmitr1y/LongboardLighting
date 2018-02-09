@@ -19,28 +19,60 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/headerText"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="@string/headerText"
+                    android:text="@string/app_name"
                     android:textSize="24sp" />
 
-                <ProgressBar
-                    android:id="@+id/toolbar_progress_bar"
-                    style="@style/Widget.AppCompat.ProgressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:indeterminateTint="@color/colorAccent"
+                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="40dp"
+                    android:gravity="right"
+                    android:layout_height="match_parent">
+
+                    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                        android:id="@+id/battery_progress_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="3dp"
+                        android:gravity="center_vertical"
+                        app:cpb_background_progressbar_color="@color/cpb_background_progressbar_color"
+                        app:cpb_background_progressbar_width="@dimen/cpb_background_progressbar_width"
+                        app:cpb_progressbar_color="@color/cpb_progressbar_color"
+                        app:cpb_progressbar_width="@dimen/cpb_progressbar_width" />
+
+                    <TextView
+                        android:id="@+id/battery_progress_text"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_alignBottom="@id/battery_progress_bar"
+                        android:layout_alignLeft="@id/battery_progress_bar"
+                        android:layout_alignRight="@id/battery_progress_bar"
+                        android:layout_alignTop="@id/battery_progress_bar"
+                        android:background="#00000000"
+                        android:gravity="center_vertical"
+                        android:textAlignment="center"
+                        android:text="65"
+                        android:textSize="10sp" />
+                </RelativeLayout>
+                <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                    android:id="@+id/connection_status_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
                     android:gravity="center_vertical"
-                    android:indeterminateTintMode="src_in"
-                    android:max="100" />
+                    app:cpb_background_progressbar_color="@color/background_connection_color"
+                    app:cpb_background_progressbar_width="@dimen/background_connection_width"
+                    app:cpb_progressbar_color="@color/connection_color"
+                    app:cpb_progressbar_width="@dimen/connection_width" />
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -56,12 +88,12 @@
         </android.support.design.widget.AppBarLayout>
 
         <include
-            android:id="@+id/device_list_view"
+            android:id="@+id/devices_list_view"
             layout="@layout/fragment_devices_list"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/headerView"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <include
             android:id="@+id/modes_list_view"
@@ -69,7 +101,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/headerView"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

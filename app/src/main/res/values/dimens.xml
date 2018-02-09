@@ -1,4 +1,8 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="cpb_progressbar_width">7dp</dimen>
+    <dimen name="cpb_background_progressbar_width">3dp</dimen>
+    <dimen name="connection_width">10dp</dimen>
+    <dimen name="background_connection_width">10dp</dimen>
 </resources>
