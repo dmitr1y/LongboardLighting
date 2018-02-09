@@ -7,11 +7,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     private View mode_list;
     private View device_list;
+    private TextView headerText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         this.device_list = (View) findViewById(R.id.devices_list_view);
         this.mode_list = (View) findViewById(R.id.modes_list_view);
+        this.headerText=(TextView) findViewById(R.id.headerText);
+        this.headerText.setText("Выбор устройства");
     }
 
     @Override
@@ -33,14 +37,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+
         switch (item.getItemId()) {
             case R.id.action_devices:
                 this.device_list.setVisibility(View.VISIBLE);
                 this.mode_list.setVisibility(View.GONE);
+                this.headerText.setText("Выбор устройства");
                 break;
             case R.id.action_modes:
                 this.device_list.setVisibility(View.GONE);
                 this.mode_list.setVisibility(View.VISIBLE);
+                this.headerText.setText("Выбор режима");
                 break;
             default:
                 break;

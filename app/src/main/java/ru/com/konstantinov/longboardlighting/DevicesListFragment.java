@@ -4,6 +4,7 @@ import android.app.ListFragment;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 
