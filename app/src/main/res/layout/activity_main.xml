@@ -61,7 +61,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/headerView"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <include
             android:id="@+id/modes_list_view"
@@ -69,7 +69,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/headerView"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
