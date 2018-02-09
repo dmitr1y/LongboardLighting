@@ -3,8 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="ru.com.konstantinov.longboardlighting.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_devices"
         android:orderInCategory="100"
         android:title="@string/action_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_modes"
+        android:orderInCategory="100"
+        android:title="@string/action_modes"
         app:showAsAction="never" />
 </menu>
