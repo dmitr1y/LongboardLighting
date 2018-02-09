@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         this.device_list = (View) findViewById(R.id.devices_list_view);
         this.mode_list = (View) findViewById(R.id.modes_list_view);
-        this.headerText=(TextView) findViewById(R.id.headerText);
+        this.headerText = (TextView) findViewById(R.id.headerText);
         this.headerText.setText("Выбор устройства");
     }
 
@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
 
         switch (item.getItemId()) {
             case R.id.action_devices:
