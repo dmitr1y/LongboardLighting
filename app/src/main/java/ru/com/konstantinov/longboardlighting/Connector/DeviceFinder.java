@@ -4,6 +4,8 @@ import android.bluetooth.BluetoothDevice;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 /**
  * Created by ceyler on 09.02.2018.
  * Interface for setup bluetooth connection
@@ -11,20 +13,10 @@ import org.jetbrains.annotations.NotNull;
 
 public interface DeviceFinder {
     /**
-     * Starts async device searching
+     *
+     * @return set of bonded devices
      */
-    void startDeviceSearching();
-
-    /**
-     * Stops device searching
-     */
-    void stopDeviceSearching();
-
-    /**
-     * Subscribes on device finding result
-     * @param handler found device handler
-     */
-    void subscribeOnDeviceFinding(@NotNull FoundDeviceHandler handler);
+    Set<BluetoothDevice> getBondedDevices();
 
     /**
      * Trying to establish connection with device
