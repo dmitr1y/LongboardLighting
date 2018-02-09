@@ -3,7 +3,7 @@ package ru.com.konstantinov.longboardlighting.dummy;
 import android.graphics.Color;
 import android.util.Log;
 
-import ru.com.konstantinov.longboardlighting.Connector.ConnectionInterface;
+import ru.com.konstantinov.longboardlighting.interfaces.ConnectionInterface;
 import ru.com.konstantinov.longboardlighting.LedMode;
 
 /**

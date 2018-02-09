@@ -1,10 +1,12 @@
-package ru.com.konstantinov.longboardlighting.Connector;
+package ru.com.konstantinov.longboardlighting.interfaces;
 
 import android.bluetooth.BluetoothDevice;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
+
+import ru.com.konstantinov.longboardlighting.MainActivity;
 
 /**
  * Created by ceyler on 09.02.2018.
@@ -24,4 +26,6 @@ public interface DeviceFinder {
      * @return true, if connected successfully, false otherwise
      */
     boolean ConnectToDevice(@NotNull BluetoothDevice device);
+
+    void onActivityDestroy(MainActivity activity);
 }

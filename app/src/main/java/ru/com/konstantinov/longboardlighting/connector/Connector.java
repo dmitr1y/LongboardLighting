@@ -1,4 +1,4 @@
-package ru.com.konstantinov.longboardlighting.Connector;
+package ru.com.konstantinov.longboardlighting.connector;
 
 import android.bluetooth.BluetoothDevice;
 import android.graphics.Color;
@@ -6,6 +6,7 @@ import android.graphics.Color;
 import org.jetbrains.annotations.NotNull;
 
 import ru.com.konstantinov.longboardlighting.LedMode;
+import ru.com.konstantinov.longboardlighting.interfaces.ConnectionInterface;
 
 /**
  * Created by ceyler on 09.02.2018.

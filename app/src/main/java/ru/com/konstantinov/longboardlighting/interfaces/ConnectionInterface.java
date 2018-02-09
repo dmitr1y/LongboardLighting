@@ -1,4 +1,4 @@
-package ru.com.konstantinov.longboardlighting.Connector;
+package ru.com.konstantinov.longboardlighting.interfaces;
 
 import android.graphics.Color;
 import ru.com.konstantinov.longboardlighting.LedMode;
