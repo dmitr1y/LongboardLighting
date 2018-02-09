@@ -42,12 +42,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_devices:
                 this.device_list.setVisibility(View.VISIBLE);
                 this.mode_list.setVisibility(View.GONE);
-                this.headerText.setText("Выбор устройства");
+                this.headerText.setText(R.string.choice_device);
                 break;
             case R.id.action_modes:
                 this.device_list.setVisibility(View.GONE);
                 this.mode_list.setVisibility(View.VISIBLE);
-                this.headerText.setText("Выбор режима");
+                this.headerText.setText(R.string.choice_mode);
                 break;
             default:
                 break;
