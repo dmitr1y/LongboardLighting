@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         this.device_list = (View) findViewById(R.id.devices_list_view);
         this.mode_list = (View) findViewById(R.id.modes_list_view);
         this.headerText = (TextView) findViewById(R.id.headerText);
-        this.headerText.setText("Выбор устройства");
+        this.headerText.setText(R.string.action_devices);
 
         //TODO check connection state of device, if not connected then hide
         CircularProgressBar batteryProgressBar = (CircularProgressBar)findViewById(R.id.battery_progress_bar);
@@ -61,12 +61,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_devices:
                 this.device_list.setVisibility(View.VISIBLE);
                 this.mode_list.setVisibility(View.GONE);
-                this.headerText.setText(R.string.choice_device);
+                this.headerText.setText(R.string.action_devices);
                 break;
             case R.id.action_modes:
                 this.device_list.setVisibility(View.GONE);
                 this.mode_list.setVisibility(View.VISIBLE);
-                this.headerText.setText(R.string.choice_mode);
+                this.headerText.setText(R.string.action_modes);
                 break;
             default:
                 break;

@@ -29,7 +29,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="@string/headerText"
+                    android:text="@string/app_name"
                     android:textSize="24sp" />
 
                 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"

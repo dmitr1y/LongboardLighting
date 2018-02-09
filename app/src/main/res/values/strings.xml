@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">Longboard Lighting</string>
-    <string name="headerText">Заголовок</string>
-    <string name="action_settings">Выбор устройства</string>
+    <string name="action_devices">Подключение</string>
     <string name="action_modes">Режимы</string>
-    <string name="choice_device">Выбор устройства</string>
-    <string name="choice_mode">Выбор режима</string>
 </resources>
