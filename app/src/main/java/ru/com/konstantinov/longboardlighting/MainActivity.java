@@ -1,18 +1,18 @@
 package ru.com.konstantinov.longboardlighting;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
-
-import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private DevicesListFragment devicesListFragment;
     private ModesListFragment modesListFragment;
 
-
+    private AlertDialog brightnessMenu;
     private View mode_list;
     private View device_list;
     private TextView headerText;
@@ -61,6 +61,26 @@ public class MainActivity extends AppCompatActivity {
         connectionIndicator = new ConnectionIndicator(this);
 
         headerText.setText(R.string.action_devices);
+
+//        brightnessMenu = new Dialog(this);
+//
+//        WindowManager.LayoutParams lp = brightnessMenu.getWindow().getAttributes();
+//        lp.dimAmount = 0.6f; // уровень затемнения от 1.0 до 0.0
+//        brightnessMenu.getWindow().setAttributes(lp);
+//        brightnessMenu.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+//// Установите заголовок
+//        brightnessMenu.setTitle("Заголовок диалога");
+//        // Передайте ссылку на разметку
+//        brightnessMenu.setContentView(R.layout.dialog_brightness);
+//        // Найдите элемент TextView внутри вашей разметки
+//        // и установите ему соответствующий текст
+
+        brightnessMenu = new AlertDialog.Builder(this)
+                .setTitle("Яркость")
+                .setView(R.layout.dialog_brightness)
+                .create();
+
+
 
 //        TODO complete handler
         this.deviceFinder = new Finder(this, new ActionListener() {
@@ -127,6 +147,9 @@ public class MainActivity extends AppCompatActivity {
                 this.device_list.setVisibility(View.GONE);
                 this.mode_list.setVisibility(View.VISIBLE);
                 this.headerText.setText(R.string.action_modes);
+                break;
+            case R.id.action_brightness:
+                brightnessMenu.show();
                 break;
             default:
                 break;
