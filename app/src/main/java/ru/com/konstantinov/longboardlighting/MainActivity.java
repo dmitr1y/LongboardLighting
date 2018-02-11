@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         connectionStatus.setBackgroundColor(ContextCompat.getColor(this, R.color.background_connection_color));
         connectionStatus.setProgressBarWidth(getResources().getDimension(R.dimen.connection_width));
         connectionStatus.setBackgroundProgressBarWidth(getResources().getDimension(R.dimen.background_connection_width));
-        setVoltageView(3.2f); //its equals to 0% level
+        setVoltageView(-1f); //its equals to ?% level
 
         if (!isConnected) {
             batteryView.setVisibility(View.GONE); // Default is hidden
@@ -123,10 +123,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void setVoltageView(float voltage) {
 //        min 3.2V, max 4.2V
-        float level = (voltage - 3.2f) * 100f;
-        int percentLevel = Math.round(level);
-        batteryProgressBar.setProgressWithAnimation(percentLevel, animationDuration); // Default is 0
-        batteryText.setText(Integer.toString(percentLevel));
+        if (voltage<0)
+            batteryText.setText("?");
+        else {
+            float level = (voltage - 3.2f) * 100f;
+            int percentLevel = Math.round(level);
+            batteryProgressBar.setProgressWithAnimation(percentLevel, animationDuration); // Default is 0
+            batteryText.setText(Integer.toString(percentLevel));
+        }
     }
 
     @Override
