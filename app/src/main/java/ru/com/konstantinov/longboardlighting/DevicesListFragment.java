@@ -57,7 +57,7 @@ public class DevicesListFragment extends ListFragment {
         //Do your stuff..
         TextView textView = (TextView) v;
         String itemText = textView.getText().toString(); // получаем текст нажатого элемента
-        Toast.makeText(getActivity(), "Подключаемся к: " + this.foundedDeviceArray[position].getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), getText(R.string.connecting_to)+": " + this.foundedDeviceArray[position].getName(), Toast.LENGTH_SHORT).show();
         this.deviceFinder.ConnectToDevice(this.foundedDeviceArray[position]);
     }
 

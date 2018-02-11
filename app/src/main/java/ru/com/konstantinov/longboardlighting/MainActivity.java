@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         batteryProgressBar.setProgressBarWidth(getResources().getDimension(R.dimen.cpb_progressbar_width));
         batteryProgressBar.setBackgroundProgressBarWidth(getResources().getDimension(R.dimen.cpb_background_progressbar_width));
         int animationDuration = 1500; // 2500ms = 2,5s
-        batteryProgressBar.setProgressWithAnimation(0, animationDuration); // Default duration = 1500ms
 
         //connection status indicator (0 - not connected, 1 - connected)
         final CircularProgressBar connectionStatus = findViewById(R.id.connection_status_bar);
@@ -72,6 +71,11 @@ public class MainActivity extends AppCompatActivity {
         connectionStatus.setBackgroundColor(ContextCompat.getColor(this, R.color.background_connection_color));
         connectionStatus.setProgressBarWidth(getResources().getDimension(R.dimen.connection_width));
         connectionStatus.setBackgroundProgressBarWidth(getResources().getDimension(R.dimen.background_connection_width));
+
+        batteryView.setVisibility(View.GONE); // Default is hidden
+        batteryProgressBar.setProgressWithAnimation(0, animationDuration); // Default is 0
+        connectionStatus.setProgressWithAnimation(0, 1); // Default is 0 (red)
+
 //        TODO complete handler
         this.deviceFinder = new Finder(this, new ActionListener() {
             @Override
