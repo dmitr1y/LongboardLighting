@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private View device_list;
     private TextView headerText;
     private DeviceFinder deviceFinder;
-    private boolean isConnected = true;
+    private boolean isConnected = false;
     private BatteryIndicator batteryIndicator;
     private ConnectionIndicator connectionIndicator;
 
