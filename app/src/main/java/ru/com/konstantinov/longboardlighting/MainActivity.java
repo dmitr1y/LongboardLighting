@@ -103,4 +103,10 @@ public class MainActivity extends AppCompatActivity {
                 subscriber.onActivityResult(resultCode, data); // call all subscribers with this request code
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        // calls on destroy
+        super.onDestroy();
+    }
 }

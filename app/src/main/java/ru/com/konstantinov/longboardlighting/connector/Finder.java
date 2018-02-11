@@ -35,9 +35,9 @@ public class Finder implements DeviceFinder, ActivityResultSubscriber {
         this.bluetoothStateReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                final String action = intent.getAction();
+                final String action = (intent != null ? intent.getAction() : null);
 
-                if (BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED.equals(action)) {
+                if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(action) || BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED.equals(action)) {
                     final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
                     listener.onAction(state);
                 }
@@ -71,6 +71,7 @@ public class Finder implements DeviceFinder, ActivityResultSubscriber {
         }
 
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+        filter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED);
         activity.registerReceiver(this.bluetoothStateReceiver, filter);
     }
 
@@ -91,6 +92,5 @@ public class Finder implements DeviceFinder, ActivityResultSubscriber {
 
     public void onActivityDestroy(MainActivity activity){
         activity.unregisterReceiver(this.bluetoothStateReceiver);
-
     }
 }
