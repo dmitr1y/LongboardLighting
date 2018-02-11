@@ -1,6 +1,7 @@
 package ru.com.konstantinov.longboardlighting.interfaces;
 
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +26,7 @@ public interface DeviceFinder {
      * @param device device to connect to
      * @return true, if connected successfully, false otherwise
      */
-    boolean ConnectToDevice(@NotNull BluetoothDevice device);
+    BluetoothSocket ConnectToDevice(@NotNull BluetoothDevice device);
 
     void onActivityDestroy(MainActivity activity);
 }

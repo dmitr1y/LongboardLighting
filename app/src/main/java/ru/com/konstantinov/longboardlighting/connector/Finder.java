@@ -2,6 +2,7 @@ package ru.com.konstantinov.longboardlighting.connector;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -81,8 +82,8 @@ public class Finder implements DeviceFinder, ActivityResultSubscriber {
     }
 
     @Override
-    public boolean ConnectToDevice(@NotNull BluetoothDevice device) {
-        return false;
+    public BluetoothSocket ConnectToDevice(@NotNull BluetoothDevice device) {
+        return null;
     }
 
     @Override

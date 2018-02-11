@@ -2,6 +2,7 @@ package ru.com.konstantinov.longboardlighting.dummy;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,9 +24,9 @@ public class TestFinder implements DeviceFinder {
     }
 
     @Override
-    public boolean ConnectToDevice(@NotNull BluetoothDevice device) {
+    public BluetoothSocket ConnectToDevice(@NotNull BluetoothDevice device) {
         Log.i("TestSearcher", "Let's say, I connected to " + device.getName());
-        return true;
+        return null;
     }
 
     @Override
