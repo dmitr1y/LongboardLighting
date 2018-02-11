@@ -1,6 +1,7 @@
 package ru.com.konstantinov.longboardlighting.dummy;
 
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import ru.com.konstantinov.longboardlighting.interfaces.ConnectionInterface;
@@ -15,7 +16,7 @@ public class TestConnector implements ConnectionInterface {
     private final static String testTag = "Connector";
 
     @Override
-    public void setMode(LedMode mode) {
+    public void setMode(@NonNull LedMode mode) {
         Log.i(testTag, "New mode is " + mode.toString());
     }
 
@@ -25,7 +26,7 @@ public class TestConnector implements ConnectionInterface {
     }
 
     @Override
-    public void setColor(Color color) {
+    public void setColor(@NonNull Color color) {
         Log.i(testTag, "New color is " + color.toString());
     }
 

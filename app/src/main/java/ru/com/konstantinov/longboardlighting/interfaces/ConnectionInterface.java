@@ -1,6 +1,9 @@
 package ru.com.konstantinov.longboardlighting.interfaces;
 
 import android.graphics.Color;
+
+import org.jetbrains.annotations.NotNull;
+
 import ru.com.konstantinov.longboardlighting.LedMode;
 
 /**
@@ -14,7 +17,7 @@ public interface ConnectionInterface {
      *
      * @param mode - mode for led
      */
-    void setMode(LedMode mode);
+    void setMode(@NotNull LedMode mode);
 
     /**
      *
@@ -26,7 +29,7 @@ public interface ConnectionInterface {
      *
      * @param color color value
      */
-    void setColor(Color color);
+    void setColor(@NotNull Color color);
 
     /**
      *
