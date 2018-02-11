@@ -35,12 +35,17 @@ public class MainActivity extends AppCompatActivity {
     private DevicesListFragment devicesListFragment;
     private ModesListFragment modesListFragment;
 
+    private CircularProgressBar batteryProgressBar;
+    private CircularProgressBar connectionStatus;
+    private int animationDuration = 1500; // 2500ms = 2,5s
+
     private View mode_list;
     private View device_list;
     private TextView headerText;
+    private TextView batteryText;
     private DeviceFinder deviceFinder;
     private RelativeLayout batteryView;
-    private boolean isConnected=false;
+    private boolean isConnected = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,30 +57,32 @@ public class MainActivity extends AppCompatActivity {
         mode_list = findViewById(R.id.modes_list_view);
         headerText = findViewById(R.id.headerText);
         batteryView = findViewById(R.id.battery_view);
+        batteryText = findViewById(R.id.battery_progress_text);
         devicesListFragment = new DevicesListFragment();
         modesListFragment = new ModesListFragment();
 
         headerText.setText(R.string.action_devices);
 
         //battery progress bar
-        final CircularProgressBar batteryProgressBar = findViewById(R.id.battery_progress_bar);
+        batteryProgressBar = findViewById(R.id.battery_progress_bar);
         batteryProgressBar.setColor(ContextCompat.getColor(this, R.color.cpb_progressbar_color));
         batteryProgressBar.setBackgroundColor(ContextCompat.getColor(this, R.color.cpb_background_progressbar_color));
         batteryProgressBar.setProgressBarWidth(getResources().getDimension(R.dimen.cpb_progressbar_width));
         batteryProgressBar.setBackgroundProgressBarWidth(getResources().getDimension(R.dimen.cpb_background_progressbar_width));
-        int animationDuration = 1500; // 2500ms = 2,5s
+
 
         //connection status indicator (0 - not connected, 1 - connected)
-        final CircularProgressBar connectionStatus = findViewById(R.id.connection_status_bar);
+        connectionStatus = findViewById(R.id.connection_status_bar);
         connectionStatus.setColor(ContextCompat.getColor(this, R.color.connection_color));
         connectionStatus.setBackgroundColor(ContextCompat.getColor(this, R.color.background_connection_color));
         connectionStatus.setProgressBarWidth(getResources().getDimension(R.dimen.connection_width));
         connectionStatus.setBackgroundProgressBarWidth(getResources().getDimension(R.dimen.background_connection_width));
 
-        batteryView.setVisibility(View.GONE); // Default is hidden
-        batteryProgressBar.setProgressWithAnimation(0, animationDuration); // Default is 0
-        connectionStatus.setProgressWithAnimation(0, 1); // Default is 0 (red)
-
+        if (!isConnected) {
+            batteryView.setVisibility(View.GONE); // Default is hidden
+            batteryProgressBar.setProgressWithAnimation(0, animationDuration); // Default is 0
+            connectionStatus.setProgressWithAnimation(0, 1); // Default is 0 (red)
+        }
 //        TODO complete handler
         this.deviceFinder = new Finder(this, new ActionListener() {
             @Override
@@ -91,13 +98,13 @@ public class MainActivity extends AppCompatActivity {
                         batteryView.setVisibility(View.GONE);
                         break;
                     case BluetoothAdapter.STATE_CONNECTED:
-                        isConnected=true;
+                        isConnected = true;
                         connectionStatus.setProgressWithAnimation(100, 1); // Set indicator green
                         Toast.makeText(getApplicationContext(), getString(R.string.bt_status_on), Toast.LENGTH_SHORT).show();
                         batteryView.setVisibility(View.VISIBLE);
                         break;
                     case BluetoothAdapter.STATE_DISCONNECTED:
-                        isConnected=false;
+                        isConnected = false;
                         connectionStatus.setProgressWithAnimation(0, 1); // Set indicator red
                         batteryView.setVisibility(View.GONE);
                         break;
@@ -107,15 +114,22 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
-    public DeviceFinder getFinder(){
+    public DeviceFinder getFinder() {
         return this.deviceFinder;
     }
 
+    public void setVoltage(float voltage) {
+        float level = (voltage - 3.2f) * 100f;
+        int percentLevel = Math.round(level);
+        Toast.makeText(getApplicationContext(), "battery level is " + percentLevel + " and V= " + voltage, Toast.LENGTH_SHORT).show();
+        batteryProgressBar.setProgressWithAnimation(percentLevel, animationDuration); // Default is 0
+        batteryText.setText(Integer.toString(percentLevel));
+    }
+
     @Override
-    public boolean onPrepareOptionsMenu (Menu menu) {
+    public boolean onPrepareOptionsMenu(Menu menu) {
         if (isConnected)
             menu.findItem(R.id.action_modes).setEnabled(true);
         else
