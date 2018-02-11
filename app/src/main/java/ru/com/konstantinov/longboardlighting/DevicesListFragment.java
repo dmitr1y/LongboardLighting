@@ -13,11 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import ru.com.konstantinov.longboardlighting.connector.Finder;
 import ru.com.konstantinov.longboardlighting.dummy.TestFinder;
 import ru.com.konstantinov.longboardlighting.interfaces.DeviceFinder;
 
 
 public class DevicesListFragment extends ListFragment {
+
+
 
     private BluetoothDevice[] foundedDeviceArray;
     private DeviceFinder deviceFinder;
@@ -26,9 +29,10 @@ public class DevicesListFragment extends ListFragment {
         // Required empty public constructor
     }
 
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        this.deviceFinder = new TestFinder();
+        this.deviceFinder=((MainActivity)getActivity()).getFinder();
 
         Set<BluetoothDevice> foundDevices = this.deviceFinder.getBondedDevices();
         this.foundedDeviceArray = foundDevices.toArray(new BluetoothDevice[foundDevices.size()]);

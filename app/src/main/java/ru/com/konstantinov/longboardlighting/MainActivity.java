@@ -33,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("UseSparseArrays")
     private Map<ActivityResultSubscriber, Integer> subscribers = new HashMap<>();
 
+    private DevicesListFragment devicesListFragment;
+    private ModesListFragment modesListFragment;
+
     private View mode_list;
     private View device_list;
     private TextView headerText;
@@ -50,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
         mode_list = findViewById(R.id.modes_list_view);
         headerText = findViewById(R.id.headerText);
         batteryView = findViewById(R.id.battery_view);
-
+        devicesListFragment = new DevicesListFragment();
+        modesListFragment = new ModesListFragment();
 
         headerText.setText(R.string.action_devices);
 
@@ -101,6 +105,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+    }
+
+    public DeviceFinder getFinder(){
+        return this.deviceFinder;
     }
 
     @Override
