@@ -2,6 +2,7 @@ package ru.com.konstantinov.longboardlighting;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -35,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private View device_list;
     private TextView headerText;
     private DeviceFinder deviceFinder;
-    boolean visibleBattery = false;
+    private RelativeLayout batteryView;
+    private boolean isConnected=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +45,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.device_list = findViewById(R.id.devices_list_view);
-        this.mode_list = findViewById(R.id.modes_list_view);
-        this.headerText = findViewById(R.id.headerText);
-        RelativeLayout batteryView = findViewById(R.id.battery_view);
+        device_list = findViewById(R.id.devices_list_view);
+        mode_list = findViewById(R.id.modes_list_view);
+        headerText = findViewById(R.id.headerText);
+        batteryView = findViewById(R.id.battery_view);
 
-        this.headerText.setText(R.string.action_devices);
+
+        headerText.setText(R.string.action_devices);
 
         //battery progress bar
         final CircularProgressBar batteryProgressBar = findViewById(R.id.battery_progress_bar);
@@ -57,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         batteryProgressBar.setProgressBarWidth(getResources().getDimension(R.dimen.cpb_progressbar_width));
         batteryProgressBar.setBackgroundProgressBarWidth(getResources().getDimension(R.dimen.cpb_background_progressbar_width));
         int animationDuration = 1500; // 2500ms = 2,5s
-        batteryProgressBar.setProgressWithAnimation(66, animationDuration); // Default duration = 1500ms
+        batteryProgressBar.setProgressWithAnimation(0, animationDuration); // Default duration = 1500ms
 
         //connection status indicator (0 - not connected, 1 - connected)
         final CircularProgressBar connectionStatus = findViewById(R.id.connection_status_bar);
@@ -65,31 +68,30 @@ public class MainActivity extends AppCompatActivity {
         connectionStatus.setBackgroundColor(ContextCompat.getColor(this, R.color.background_connection_color));
         connectionStatus.setProgressBarWidth(getResources().getDimension(R.dimen.connection_width));
         connectionStatus.setBackgroundProgressBarWidth(getResources().getDimension(R.dimen.background_connection_width));
-
-        if (visibleBattery)
-            batteryView.setVisibility(View.VISIBLE);
-        else
-            batteryView.setVisibility(View.GONE);
-
 //        TODO complete handler
         this.deviceFinder = new Finder(this, new ActionListener() {
             @Override
             public void onAction(int action) {
                 switch (action) {
                     case BluetoothAdapter.ERROR:
-                        visibleBattery=true;
                         break;
                     case BluetoothAdapter.STATE_ON:
                         break;
                     case BluetoothAdapter.STATE_OFF:
 //                        TODO try to enable BT
                         connectionStatus.setProgressWithAnimation(0, 1); // Set indicator red
-                        visibleBattery=true;
+                        batteryView.setVisibility(View.GONE);
                         break;
                     case BluetoothAdapter.STATE_CONNECTED:
+                        isConnected=true;
                         connectionStatus.setProgressWithAnimation(100, 1); // Set indicator green
                         Toast.makeText(getApplicationContext(), getString(R.string.bt_status_on), Toast.LENGTH_SHORT).show();
-                        visibleBattery=true;
+                        batteryView.setVisibility(View.VISIBLE);
+                        break;
+                    case BluetoothAdapter.STATE_DISCONNECTED:
+                        isConnected=false;
+                        connectionStatus.setProgressWithAnimation(0, 1); // Set indicator red
+                        batteryView.setVisibility(View.GONE);
                         break;
                     default:
                         connectionStatus.setProgressWithAnimation(0, 1); // Set indicator red
@@ -97,6 +99,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+        if (isConnected)
+            menu.findItem(R.id.action_modes).setEnabled(true);
+        else
+            menu.findItem(R.id.action_modes).setEnabled(false);
+        return true;
     }
 
     @Override
