@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                     case BluetoothAdapter.STATE_CONNECTED:
                         isConnected = true;
                         connectionStatus.setProgressWithAnimation(100, 1); // Set indicator green
-                        Toast.makeText(getApplicationContext(), getString(R.string.bt_status_on), Toast.LENGTH_SHORT).show();
                         batteryView.setVisibility(View.VISIBLE);
 //                        TODO send empty message for receiving battery voltage
                         break;
