@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -84,6 +83,7 @@ public class Finder implements DeviceFinder, ActivityResultSubscriber {
     }
 
     private void closeSocket(){
+        listener.onAction(BluetoothAdapter.STATE_DISCONNECTED);
         if (this.socket != null){
             try {
                 this.socket.close();
@@ -102,17 +102,16 @@ public class Finder implements DeviceFinder, ActivityResultSubscriber {
     @Override
     public BluetoothSocket ConnectToDevice(@NotNull BluetoothDevice device) {
         this.closeSocket();
-        Log.w("Finder", "Connecting to " + device.getName());
 
         try {
             this.socket = device.createRfcommSocketToServiceRecord(FINDER_UUID);
             this.socket.connect();
+            listener.onAction(BluetoothAdapter.STATE_CONNECTED);
         } catch (IOException e) {
             e.printStackTrace();
             this.closeSocket();
         }
 
-        Log.w("Finder", "Connected successfully");
         return this.socket;
     }
 
