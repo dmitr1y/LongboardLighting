@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
                 brightnessValue=seekBar.getProgress();
+//                TODO add sending data after change
             }
         });
     }
