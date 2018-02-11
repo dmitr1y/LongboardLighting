@@ -62,25 +62,10 @@ public class MainActivity extends AppCompatActivity {
 
         headerText.setText(R.string.action_devices);
 
-//        brightnessMenu = new Dialog(this);
-//
-//        WindowManager.LayoutParams lp = brightnessMenu.getWindow().getAttributes();
-//        lp.dimAmount = 0.6f; // уровень затемнения от 1.0 до 0.0
-//        brightnessMenu.getWindow().setAttributes(lp);
-//        brightnessMenu.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-//// Установите заголовок
-//        brightnessMenu.setTitle("Заголовок диалога");
-//        // Передайте ссылку на разметку
-//        brightnessMenu.setContentView(R.layout.dialog_brightness);
-//        // Найдите элемент TextView внутри вашей разметки
-//        // и установите ему соответствующий текст
-
         brightnessMenu = new AlertDialog.Builder(this)
-                .setTitle("Яркость")
+                .setTitle(getString(R.string.action_brightness))
                 .setView(R.layout.dialog_brightness)
                 .create();
-
-
 
 //        TODO complete handler
         this.deviceFinder = new Finder(this, new ActionListener() {
