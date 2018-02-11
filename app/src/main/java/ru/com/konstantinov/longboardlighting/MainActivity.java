@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
     public void setVoltageView(float voltage) {
         float level = (voltage - 3.2f) * 100f;
         int percentLevel = Math.round(level);
-        Toast.makeText(getApplicationContext(), "battery level is " + percentLevel + " and V= " + voltage, Toast.LENGTH_SHORT).show();
         batteryProgressBar.setProgressWithAnimation(percentLevel, animationDuration); // Default is 0
         batteryText.setText(Integer.toString(percentLevel));
     }
