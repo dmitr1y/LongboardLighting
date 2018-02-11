@@ -12,9 +12,4 @@
         android:orderInCategory="100"
         android:title="@string/action_modes"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/action_brightness"
-        android:orderInCategory="100"
-        android:title="@string/action_brightness"
-        app:showAsAction="never" />
 </menu>

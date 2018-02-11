@@ -1,19 +1,19 @@
 package ru.com.konstantinov.longboardlighting;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -34,20 +34,22 @@ public class MainActivity extends AppCompatActivity {
     private DevicesListFragment devicesListFragment;
     private ModesListFragment modesListFragment;
 
-    private AlertDialog brightnessMenu;
     private View mode_list;
     private View device_list;
     private TextView headerText;
     private DeviceFinder deviceFinder;
-    private boolean isConnected = false;
-
+    private boolean isConnected = true;
     private BatteryIndicator batteryIndicator;
     private ConnectionIndicator connectionIndicator;
+
+    private DiscreteSeekBar brightnessIndicator;
+    private int brightnessValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         device_list = findViewById(R.id.devices_list_view);
@@ -60,12 +62,11 @@ public class MainActivity extends AppCompatActivity {
         batteryIndicator = new BatteryIndicator(this);
         connectionIndicator = new ConnectionIndicator(this);
 
-        headerText.setText(R.string.action_devices);
+        brightnessIndicator=findViewById(R.id.brightness_indicator);
 
-        brightnessMenu = new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.action_brightness))
-                .setView(R.layout.dialog_brightness)
-                .create();
+        headerText.setText(R.string.action_devices);
+        batteryIndicator.hide();
+        brightnessValue=150;
 
 //        TODO complete handler
         this.deviceFinder = new Finder(this, new ActionListener() {
@@ -95,6 +96,22 @@ public class MainActivity extends AppCompatActivity {
                     default:
                         break;
                 }
+            }
+        });
+
+        brightnessIndicator.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
+                brightnessValue=seekBar.getProgress();
             }
         });
     }
@@ -132,9 +149,6 @@ public class MainActivity extends AppCompatActivity {
                 this.device_list.setVisibility(View.GONE);
                 this.mode_list.setVisibility(View.VISIBLE);
                 this.headerText.setText(R.string.action_modes);
-                break;
-            case R.id.action_brightness:
-                brightnessMenu.show();
                 break;
             default:
                 break;
