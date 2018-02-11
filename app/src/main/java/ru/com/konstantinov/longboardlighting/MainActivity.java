@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         this.deviceFinder = new Finder(this, new ActionListener() {
             @Override
             public void onAction(int action) {
+                Log.w("Finder", "Action " + Integer.toString(action));
                 switch (action) {
                     case BluetoothAdapter.ERROR:
                         break;

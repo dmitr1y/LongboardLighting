@@ -2,14 +2,18 @@ package ru.com.konstantinov.longboardlighting.connector;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.Set;
+import java.util.UUID;
 
 import ru.com.konstantinov.longboardlighting.MainActivity;
 import ru.com.konstantinov.longboardlighting.interfaces.ActionListener;
@@ -25,9 +29,13 @@ import static android.app.Activity.RESULT_OK;
 
 public class Finder implements DeviceFinder, ActivityResultSubscriber {
 
+    private final static UUID FINDER_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
     private final BluetoothAdapter adapter;
     private final ActionListener listener;
     private final BroadcastReceiver bluetoothStateReceiver;
+
+    private BluetoothSocket socket = null;
 
     public Finder(final MainActivity activity, final ActionListener bluetoothActionsListener) {
         this.listener = bluetoothActionsListener;
@@ -75,14 +83,37 @@ public class Finder implements DeviceFinder, ActivityResultSubscriber {
         activity.registerReceiver(this.bluetoothStateReceiver, filter);
     }
 
+    private void closeSocket(){
+        if (this.socket != null){
+            try {
+                this.socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                this.socket = null;
+            }
+        }
+    }
+
     @Override
     public Set<BluetoothDevice> getBondedDevices() {
         return adapter.getBondedDevices();
     }
 
     @Override
-    public boolean ConnectToDevice(@NotNull BluetoothDevice device) {
-        return false;
+    public BluetoothSocket ConnectToDevice(@NotNull BluetoothDevice device) {
+        this.closeSocket();
+        Log.w("Finder", "Connecting to " + device.getName());
+
+        try {
+            this.socket = device.createRfcommSocketToServiceRecord(FINDER_UUID);
+            this.socket.connect();
+        } catch (IOException e) {
+            e.printStackTrace();
+            this.closeSocket();
+        }
+
+        Log.w("Finder", "Connected successfully");
+        return this.socket;
     }
 
     @Override
@@ -91,6 +122,7 @@ public class Finder implements DeviceFinder, ActivityResultSubscriber {
     }
 
     public void onActivityDestroy(MainActivity activity){
+        this.closeSocket();
         activity.unregisterReceiver(this.bluetoothStateReceiver);
     }
 }
