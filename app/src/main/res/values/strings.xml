@@ -2,4 +2,6 @@
     <string name="app_name">Longboard Lighting</string>
     <string name="action_devices">Подключение</string>
     <string name="action_modes">Режимы</string>
+    <string name="bt_status_off">Bluetooth отключен</string>
+    <string name="bt_status_on">Bluetooth включен</string>
 </resources>

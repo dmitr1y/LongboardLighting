@@ -10,7 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private View device_list;
     private TextView headerText;
     private DeviceFinder deviceFinder;
+    boolean visibleBattery = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +46,12 @@ public class MainActivity extends AppCompatActivity {
         this.device_list = findViewById(R.id.devices_list_view);
         this.mode_list = findViewById(R.id.modes_list_view);
         this.headerText = findViewById(R.id.headerText);
+        RelativeLayout batteryView = findViewById(R.id.battery_view);
 
         this.headerText.setText(R.string.action_devices);
 
-        //TODO check connection state of device, if not connected then hide
-        CircularProgressBar batteryProgressBar = findViewById(R.id.battery_progress_bar);
+        //battery progress bar
+        final CircularProgressBar batteryProgressBar = findViewById(R.id.battery_progress_bar);
         batteryProgressBar.setColor(ContextCompat.getColor(this, R.color.cpb_progressbar_color));
         batteryProgressBar.setBackgroundColor(ContextCompat.getColor(this, R.color.cpb_background_progressbar_color));
         batteryProgressBar.setProgressBarWidth(getResources().getDimension(R.dimen.cpb_progressbar_width));
@@ -55,14 +59,17 @@ public class MainActivity extends AppCompatActivity {
         int animationDuration = 1500; // 2500ms = 2,5s
         batteryProgressBar.setProgressWithAnimation(66, animationDuration); // Default duration = 1500ms
 
+        //connection status indicator (0 - not connected, 1 - connected)
         final CircularProgressBar connectionStatus = findViewById(R.id.connection_status_bar);
         connectionStatus.setColor(ContextCompat.getColor(this, R.color.connection_color));
         connectionStatus.setBackgroundColor(ContextCompat.getColor(this, R.color.background_connection_color));
         connectionStatus.setProgressBarWidth(getResources().getDimension(R.dimen.connection_width));
         connectionStatus.setBackgroundProgressBarWidth(getResources().getDimension(R.dimen.background_connection_width));
-//        int animationDuration = 1500; // 2500ms = 2,5s
 
-
+        if (visibleBattery)
+            batteryView.setVisibility(View.VISIBLE);
+        else
+            batteryView.setVisibility(View.GONE);
 
 //        TODO complete handler
         this.deviceFinder = new Finder(this, new ActionListener() {
@@ -70,18 +77,22 @@ public class MainActivity extends AppCompatActivity {
             public void onAction(int action) {
                 switch (action) {
                     case BluetoothAdapter.ERROR:
+                        visibleBattery=true;
                         break;
                     case BluetoothAdapter.STATE_ON:
-//                        set indicator green
-                        connectionStatus.setProgressWithAnimation(100, 1); // Default duration = 1500ms
-
                         break;
                     case BluetoothAdapter.STATE_OFF:
-
+//                        TODO try to enable BT
+                        connectionStatus.setProgressWithAnimation(0, 1); // Set indicator red
+                        visibleBattery=true;
+                        break;
+                    case BluetoothAdapter.STATE_CONNECTED:
+                        connectionStatus.setProgressWithAnimation(100, 1); // Set indicator green
+                        Toast.makeText(getApplicationContext(), getString(R.string.bt_status_on), Toast.LENGTH_SHORT).show();
+                        visibleBattery=true;
                         break;
                     default:
-                        connectionStatus.setProgressWithAnimation(0, 1); // Default duration = 1500ms
-
+                        connectionStatus.setProgressWithAnimation(0, 1); // Set indicator red
                         break;
                 }
             }

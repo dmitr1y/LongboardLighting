@@ -34,6 +34,7 @@
 
                 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/battery_view"
                     android:layout_width="40dp"
                     android:gravity="right"
                     android:layout_height="match_parent">
