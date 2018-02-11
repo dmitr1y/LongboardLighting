@@ -43,24 +43,8 @@ public class MainActivity extends AppCompatActivity {
         this.device_list = findViewById(R.id.devices_list_view);
         this.mode_list = findViewById(R.id.modes_list_view);
         this.headerText = findViewById(R.id.headerText);
-        this.headerText.setText(R.string.action_devices);
-//        TODO complete handler
-        this.deviceFinder = new Finder(this, new ActionListener() {
-            @Override
-            public void onAction(int action) {
-                switch (action) {
-                    case BluetoothAdapter.ERROR:
-                        break;
-                    case BluetoothAdapter.STATE_ON:
-                        break;
-                    case BluetoothAdapter.STATE_OFF:
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
 
+        this.headerText.setText(R.string.action_devices);
 
         //TODO check connection state of device, if not connected then hide
         CircularProgressBar batteryProgressBar = findViewById(R.id.battery_progress_bar);
@@ -69,15 +53,39 @@ public class MainActivity extends AppCompatActivity {
         batteryProgressBar.setProgressBarWidth(getResources().getDimension(R.dimen.cpb_progressbar_width));
         batteryProgressBar.setBackgroundProgressBarWidth(getResources().getDimension(R.dimen.cpb_background_progressbar_width));
         int animationDuration = 1500; // 2500ms = 2,5s
-        batteryProgressBar.setProgressWithAnimation(65, animationDuration); // Default duration = 1500ms
+        batteryProgressBar.setProgressWithAnimation(66, animationDuration); // Default duration = 1500ms
 
-        CircularProgressBar connectionStatus = findViewById(R.id.connection_status_bar);
+        final CircularProgressBar connectionStatus = findViewById(R.id.connection_status_bar);
         connectionStatus.setColor(ContextCompat.getColor(this, R.color.connection_color));
         connectionStatus.setBackgroundColor(ContextCompat.getColor(this, R.color.background_connection_color));
         connectionStatus.setProgressBarWidth(getResources().getDimension(R.dimen.connection_width));
         connectionStatus.setBackgroundProgressBarWidth(getResources().getDimension(R.dimen.background_connection_width));
 //        int animationDuration = 1500; // 2500ms = 2,5s
-        connectionStatus.setProgressWithAnimation(100, 1); // Default duration = 1500ms
+
+
+
+//        TODO complete handler
+        this.deviceFinder = new Finder(this, new ActionListener() {
+            @Override
+            public void onAction(int action) {
+                switch (action) {
+                    case BluetoothAdapter.ERROR:
+                        break;
+                    case BluetoothAdapter.STATE_ON:
+//                        set indicator green
+                        connectionStatus.setProgressWithAnimation(100, 1); // Default duration = 1500ms
+
+                        break;
+                    case BluetoothAdapter.STATE_OFF:
+
+                        break;
+                    default:
+                        connectionStatus.setProgressWithAnimation(0, 1); // Default duration = 1500ms
+
+                        break;
+                }
+            }
+        });
     }
 
     @Override

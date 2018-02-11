@@ -3,8 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#ff4081</color>
-    <color name="cpb_background_progressbar_color">#a1a1a1</color>
-    <color name="cpb_progressbar_color">#ffd000</color>
+    <color name="cpb_background_progressbar_color">#a71313</color>
+    <color name="cpb_progressbar_color">#30a900</color>
     <color name="background_connection_color">#a71313</color>
     <color name="connection_color">#30a900</color>
 </resources>
