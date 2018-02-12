@@ -36,7 +36,7 @@ public class BluetoothThread extends Thread implements ConnectionInterface {
     private volatile float voltage;
 
     BluetoothThread(@NotNull InputStream inputStream, @NotNull OutputStream outputStream, @NotNull ActionListener listener, @NotNull Object syncObject) {
-        this.scanner = new Scanner(inputStream).useDelimiter("@");
+        this.scanner = new Scanner(inputStream).useDelimiter("@").useDelimiter("#").useDelimiter(":");
         this.writer = new OutputStreamWriter(outputStream);
         this.listener = listener;
         this.syncObject = syncObject;
@@ -58,10 +58,16 @@ public class BluetoothThread extends Thread implements ConnectionInterface {
 
             Log.w("Finder", "Start reading");
 
-            String result = scanner.next();
-            char voltage[] = new char[4];
-            result.getChars(3, 6, voltage, 0);
-            Log.w("Finder", "Result: " + Arrays.toString(voltage));
+            try{
+                int code = Integer.valueOf(scanner.next());
+                if(code == 3) {
+                    this.voltage = Float.valueOf(scanner.next());
+                }else {
+                    Log.w("Finder", "Unknown code: " + code);
+                }
+            } catch (NumberFormatException ex){
+                Log.w("Finder", "Something went wrong!");
+            }
 
             Log.w("Finder", "Finish reading");
 
