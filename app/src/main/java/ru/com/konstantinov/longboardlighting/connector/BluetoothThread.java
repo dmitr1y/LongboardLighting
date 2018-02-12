@@ -15,7 +15,10 @@ import java.io.Writer;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import ru.com.konstantinov.longboardlighting.ControllerVariables;
+import ru.com.konstantinov.longboardlighting.Indicators.BatteryIndicator;
 import ru.com.konstantinov.longboardlighting.LedMode;
+import ru.com.konstantinov.longboardlighting.MainActivity;
 import ru.com.konstantinov.longboardlighting.interfaces.ActionListener;
 import ru.com.konstantinov.longboardlighting.interfaces.ConnectionInterface;
 
@@ -31,7 +34,7 @@ public class BluetoothThread extends Thread implements ConnectionInterface {
     private final Object syncObject;
 
     private volatile LedMode mode = LedMode.RAINBOW_FADE;
-    private volatile int brightness = 255;
+    private volatile int brightness = 100;
     private volatile Color color;
     private volatile float voltage;
 
@@ -59,9 +62,11 @@ public class BluetoothThread extends Thread implements ConnectionInterface {
             Log.w("Finder", "Start reading");
 
             String result = scanner.next();
-            char voltage[] = new char[4];
-            result.getChars(3, 6, voltage, 0);
-            Log.w("Finder", "Result: " + Arrays.toString(voltage));
+//            char voltage[] = new char[7];
+            parserAnswer(result);
+//            result.split("")
+//            result.getChars(3, 6, voltage, 0);
+//            Log.w("Finder", "Result: " + Arrays.toString(voltage));
 
             Log.w("Finder", "Finish reading");
 
@@ -71,6 +76,28 @@ public class BluetoothThread extends Thread implements ConnectionInterface {
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    private void parserAnswer(String answer) {
+        String[] parsed = answer.split("#");
+        for (String aParsed : parsed) {
+
+            String[] variable = aParsed.split(":", 2);
+            if (variable.length == 2) {
+                Log.i("parserAnswer - variable", variable[0] + " = " + variable[1]);
+//                switch (Integer.getInteger(variable[0])){
+//                    case ControllerVariables.VOLTAGE:
+//                    float value = Float.valueOf(variable[1].trim());
+//                        BatteryIndicator
+//                    break;
+//
+//                    default:
+//                        break;
+//                }
+
+
             }
         }
     }
