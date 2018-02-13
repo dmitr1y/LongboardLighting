@@ -2,6 +2,7 @@ package ru.com.konstantinov.longboardlighting.connector;
 
 import android.bluetooth.BluetoothSocket;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import org.jetbrains.annotations.NotNull;
@@ -50,10 +51,10 @@ public class Connector implements ConnectionInterface {
         }
 
         this.sendingThread = new SendingThread(outputStream, listener, syncObject);
-        this.sendingThread.execute();
+        this.sendingThread.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         this.readingThread = new ReadingThread(inputStream, listener);
-        this.readingThread.execute();
+        this.sendingThread.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
