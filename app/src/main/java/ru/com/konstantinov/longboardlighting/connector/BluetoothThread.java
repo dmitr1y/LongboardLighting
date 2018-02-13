@@ -30,7 +30,9 @@ public class BluetoothThread extends Thread implements ConnectionInterface {
     private final Object syncObject;
 
     private volatile LedMode mode = LedMode.RAINBOW_FADE;
+    private volatile boolean isModeChanged = false;
     private volatile int brightness = 100;
+    private volatile boolean isBrightnessChanged = false;
     private volatile float voltage;
 
     BluetoothThread(@NotNull InputStream inputStream, @NotNull OutputStream outputStream, @NotNull ActionListener listener, @NotNull Object syncObject) {
@@ -43,10 +45,19 @@ public class BluetoothThread extends Thread implements ConnectionInterface {
     @Override
     public void run() {
         while (true) {
-            String output = "#0:" + Integer.toString(this.mode.getCode()) + "#1:" + Integer.toString(this.brightness) + "@";
+            StringBuilder output = new StringBuilder("");
+            if(this.isModeChanged){
+                output.append('#').append(ControllerVariables.MODE.getCode()).append(':').append(this.mode.getCode());
+                this.isModeChanged = false;
+            }
+            if(this.isBrightnessChanged){
+                output.append('#').append(ControllerVariables.BRIGHTNESS.getCode()).append(':').append(this.brightness);
+                this.isBrightnessChanged = false;
+            }
+            output.append("@");
 
             try {
-                writer.write(output);
+                writer.write(output.toString());
                 writer.flush();
             } catch (IOException e) {
                 listener.onAction(BluetoothAdapter.STATE_DISCONNECTED);
@@ -102,11 +113,13 @@ public class BluetoothThread extends Thread implements ConnectionInterface {
 
     @Override
     public void setMode(@NonNull LedMode mode) {
+        this.isModeChanged = true;
         this.mode = mode;
     }
 
     @Override
     public void setBrightness(int value) {
+        this.isBrightnessChanged = true;
         this.brightness = value;
     }
 
