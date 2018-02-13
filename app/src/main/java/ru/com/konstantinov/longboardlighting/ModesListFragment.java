@@ -1,24 +1,14 @@
 package ru.com.konstantinov.longboardlighting;
 
 import android.app.ListFragment;
-import android.bluetooth.BluetoothSocket;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Arrays;
-
-import ru.com.konstantinov.longboardlighting.connector.Connector;
-import ru.com.konstantinov.longboardlighting.dummy.TestConnector;
-import ru.com.konstantinov.longboardlighting.interfaces.ConnectionInterface;
 
 
 public class ModesListFragment extends ListFragment {

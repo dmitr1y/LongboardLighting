@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -51,8 +50,8 @@ public class DevicesListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         //Do your stuff..
-        TextView textView = (TextView) v;
-        String itemText = textView.getText().toString(); // получаем текст нажатого элемента
+//        TextView textView = (TextView) v;
+//        String itemText = textView.getText().toString(); // получаем текст нажатого элемента
         Toast.makeText(getActivity(), getText(R.string.connecting_to)+": " + this.foundedDeviceArray[position].getName(), Toast.LENGTH_SHORT).show();
         BluetoothSocket socket = this.deviceFinder.ConnectToDevice(this.foundedDeviceArray[position]);
         ((MainActivity) getActivity()).setBluetoothSocket(socket);

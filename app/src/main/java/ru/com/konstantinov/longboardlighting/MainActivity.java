@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
@@ -92,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
                         isConnected = true;
                         connectionIndicator.setOn();
                         batteryIndicator.show();
+                        device_list.setVisibility(View.GONE); // hide devices list
+                        mode_list.setVisibility(View.VISIBLE); // show modes list
 //                        TODO send empty message for receiving battery voltage
                         break;
                     case BluetoothAdapter.STATE_DISCONNECTED:
