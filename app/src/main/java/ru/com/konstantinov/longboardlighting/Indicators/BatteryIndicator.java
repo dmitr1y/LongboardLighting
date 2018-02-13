@@ -2,6 +2,7 @@ package ru.com.konstantinov.longboardlighting.Indicators;
 
 import android.app.Activity;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -55,7 +56,8 @@ public final class BatteryIndicator {
     public void setVoltageView(float voltage) {
         float level = (voltage - rangeMIN) * 100f;
         int percentLevel = Math.round(level);
-        batteryProgressBar.setProgressWithAnimation(percentLevel, animationDuration); // Default is 0
+//        batteryProgressBar.setProgressWithAnimation(percentLevel, animationDuration); // Default is 0
+        batteryProgressBar.setProgress(percentLevel);
         batteryText.setText(Integer.toString(percentLevel));
     }
 }

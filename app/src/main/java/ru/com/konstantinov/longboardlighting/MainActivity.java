@@ -44,6 +44,41 @@ public class MainActivity extends AppCompatActivity {
     private BatteryIndicator batteryIndicator;
     private ConnectionIndicator connectionIndicator;
 
+    private ActionListener listener = new ActionListener() {
+        @Override
+        public void onAction(int action) {
+            switch (action) {
+                case BluetoothAdapter.ERROR:
+                    break;
+                case BluetoothAdapter.STATE_ON:
+                    break;
+                case BluetoothAdapter.STATE_OFF:
+//                        TODO try to enable BT
+                    connectionIndicator.setOff();
+                    batteryIndicator.hide();
+                    break;
+                case BluetoothAdapter.STATE_CONNECTED:
+                    isConnected = true;
+                    connectionIndicator.setOn();
+                    batteryIndicator.show();
+                    device_list.setVisibility(View.GONE); // hide devices list
+                    mode_list.setVisibility(View.VISIBLE); // show modes list
+//                        TODO send empty message for receiving battery voltage
+                    break;
+                case BluetoothAdapter.STATE_DISCONNECTED:
+                    isConnected = false;
+                    connectionIndicator.setOff();
+                    batteryIndicator.hide();
+                    break;
+                case Connector.DATA_UPDATED:
+                    batteryIndicator.setVoltageView(connector.getVoltage());
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     BluetoothSocket bluetoothSocket;
     ConnectionInterface connector;
 
@@ -73,38 +108,7 @@ public class MainActivity extends AppCompatActivity {
         headerText.setText(R.string.action_devices);
         batteryIndicator.hide();
 
-//        TODO complete handler
-        this.deviceFinder = new Finder(this, new ActionListener() {
-            @Override
-            public void onAction(int action) {
-                switch (action) {
-                    case BluetoothAdapter.ERROR:
-                        break;
-                    case BluetoothAdapter.STATE_ON:
-                        break;
-                    case BluetoothAdapter.STATE_OFF:
-//                        TODO try to enable BT
-                        connectionIndicator.setOff();
-                        batteryIndicator.hide();
-                        break;
-                    case BluetoothAdapter.STATE_CONNECTED:
-                        isConnected = true;
-                        connectionIndicator.setOn();
-                        batteryIndicator.show();
-                        device_list.setVisibility(View.GONE); // hide devices list
-                        mode_list.setVisibility(View.VISIBLE); // show modes list
-//                        TODO send empty message for receiving battery voltage
-                        break;
-                    case BluetoothAdapter.STATE_DISCONNECTED:
-                        isConnected = false;
-                        connectionIndicator.setOff();
-                        batteryIndicator.hide();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
+        this.deviceFinder = new Finder(this, this.listener);
 
         brightnessIndicator.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
@@ -134,12 +138,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void connect() {
-        this.connector = new Connector(this.bluetoothSocket, new ActionListener() {
-            @Override
-            public void onAction(int action) {
-                Log.w("MainActivity", " ConnectionInterface connector - Action: " + action);
-            }
-        });
+        this.connector = new Connector(this.bluetoothSocket, this.listener);
     }
 
     public ConnectionInterface getConnector() {

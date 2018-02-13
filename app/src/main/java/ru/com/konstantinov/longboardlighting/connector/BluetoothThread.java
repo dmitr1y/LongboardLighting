@@ -3,6 +3,7 @@ package ru.com.konstantinov.longboardlighting.connector;
 import android.bluetooth.BluetoothAdapter;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -59,6 +60,7 @@ public class BluetoothThread extends Thread implements ConnectionInterface {
             try {
                 writer.write(output.toString());
                 writer.flush();
+                Log.w("LBBluetooth", "Sent: " + output.toString());
             } catch (IOException e) {
                 listener.onAction(BluetoothAdapter.STATE_DISCONNECTED);
                 break;
@@ -80,7 +82,7 @@ public class BluetoothThread extends Thread implements ConnectionInterface {
 
             try {
                 synchronized (syncObject) {
-                    syncObject.wait(1000); // wait for a second
+                    syncObject.wait(1000*60); // wait for a second
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
