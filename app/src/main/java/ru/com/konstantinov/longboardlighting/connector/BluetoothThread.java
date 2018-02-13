@@ -31,7 +31,7 @@ public class BluetoothThread extends Thread implements ConnectionInterface {
     private final Object syncObject;
 
     private volatile LedMode mode = LedMode.RAINBOW_FADE;
-    private volatile int brightness = 255;
+    private volatile int brightness = 100;
     private volatile Color color;
     private volatile float voltage;
 
@@ -79,6 +79,28 @@ public class BluetoothThread extends Thread implements ConnectionInterface {
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    private void parserAnswer(String answer) {
+        String[] parsed = answer.split("#");
+        for (String aParsed : parsed) {
+
+            String[] variable = aParsed.split(":", 2);
+            if (variable.length == 2) {
+                Log.i("parserAnswer - variable", variable[0] + " = " + variable[1]);
+//                switch (Integer.getInteger(variable[0])){
+//                    case ControllerVariables.VOLTAGE:
+//                    float value = Float.valueOf(variable[1].trim());
+//                        BatteryIndicator
+//                    break;
+//
+//                    default:
+//                        break;
+//                }
+
+
             }
         }
     }

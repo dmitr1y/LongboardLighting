@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.util.Arrays;
 
 import ru.com.konstantinov.longboardlighting.dummy.TestConnector;
+import ru.com.konstantinov.longboardlighting.interfaces.ConnectionInterface;
 
 
 public class ModesListFragment extends ListFragment {
@@ -24,7 +25,6 @@ public class ModesListFragment extends ListFragment {
         // Required empty public constructor
     }
 
-    //TODO check BT device state : if not connected, then restrict choice mode and maybe disable menu item
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class ModesListFragment extends ListFragment {
         TextView textView = (TextView) v;
         String itemText = textView.getText().toString(); // получаем текст нажатого элемента
         Toast.makeText(getActivity(), "выбран: " + Integer.toString(position) + " - " + LedMode.getModeByName(itemText).getCode(), Toast.LENGTH_SHORT).show();
-        TestConnector connector = new TestConnector();
+        ConnectionInterface connector = new TestConnector();
         connector.setMode(LedMode.getModeByName(itemText));
     }
 

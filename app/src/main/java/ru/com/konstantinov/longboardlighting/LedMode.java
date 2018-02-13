@@ -10,6 +10,7 @@ import java.util.Objects;
  */
 
 public enum LedMode {
+    ALL_OFF(0, "Выключить"), // all leds is off
     ALL_WHITE(1, "Вся лента белая"), // all leds is white
     RAINBOW_FADE(2, "Плавная смена цветов всей ленты"), // smooth change of colors of all tape
     RAINBOW_LOOP(3, "Крутящаяся радуга"), // a twirling rainbow

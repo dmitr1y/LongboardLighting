@@ -5,4 +5,7 @@
     <string name="bt_status_off">Bluetooth отключен</string>
     <string name="bt_status_on">Bluetooth включен</string>
     <string name="connecting_to">Подключаемся к</string>
+    <string name="bt_status_connected">Подключено</string>
+    <string name="action_brightness">Яркость</string>
+    <string name="ok">OK</string>
 </resources>
