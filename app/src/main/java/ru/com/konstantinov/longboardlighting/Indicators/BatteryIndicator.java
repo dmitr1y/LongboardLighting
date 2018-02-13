@@ -49,15 +49,14 @@ public final class BatteryIndicator {
 
     }
 
-    public void setUnknownState() {
+    private void setUnknownState() {
         batteryText.setText("?");
     }
 
     public void setVoltageView(float voltage) {
         float level = (voltage - rangeMIN) * 100f;
         int percentLevel = Math.round(level);
-//        batteryProgressBar.setProgressWithAnimation(percentLevel, animationDuration); // Default is 0
-        batteryProgressBar.setProgress(percentLevel);
+        batteryProgressBar.setProgressWithAnimation(percentLevel, animationDuration); // Default is 0
         batteryText.setText(Integer.toString(percentLevel));
     }
 }

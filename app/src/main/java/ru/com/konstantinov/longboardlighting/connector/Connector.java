@@ -22,7 +22,8 @@ import ru.com.konstantinov.longboardlighting.interfaces.ConnectionInterface;
 public class Connector implements ConnectionInterface {
 
     private final Object syncObject = new Object();
-    private final BluetoothThread thread;
+    private final SendingThread sendingThread;
+    private final ReadingThread readingThread;
 
     public static final int DATA_UPDATED = 4200;
 
@@ -48,13 +49,16 @@ public class Connector implements ConnectionInterface {
             throw new IllegalArgumentException("Socket isn't connected");
         }
 
-        this.thread = new BluetoothThread(inputStream, outputStream, listener, syncObject);
-        new Thread(this.thread).start();
+        this.sendingThread = new SendingThread(outputStream, listener, syncObject);
+        new Thread(this.sendingThread).start();
+
+        this.readingThread = new ReadingThread(inputStream, listener);
+        this.readingThread.execute();
     }
 
     @Override
     public void setMode(@NonNull LedMode mode) {
-        this.thread.setMode(mode);
+        this.sendingThread.setMode(mode);
 
         synchronized (this.syncObject){
             this.syncObject.notify();
@@ -63,7 +67,7 @@ public class Connector implements ConnectionInterface {
 
     @Override
     public void setBrightness(int value) {
-        this.thread.setBrightness(value);
+        this.sendingThread.setBrightness(value);
 
         synchronized (this.syncObject){
             this.syncObject.notify();
@@ -72,7 +76,7 @@ public class Connector implements ConnectionInterface {
 
     @Override
     public void setColor(@NonNull Color color) {
-        this.thread.setColor(color);
+        this.sendingThread.setColor(color);
 
         synchronized (this.syncObject){
             this.syncObject.notify();
@@ -81,6 +85,6 @@ public class Connector implements ConnectionInterface {
 
     @Override
     public float getVoltage() {
-        return thread.getVoltage();
+        return this.readingThread.getVoltage();
     }
 }

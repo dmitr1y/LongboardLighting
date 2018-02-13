@@ -8,24 +8,20 @@ import android.util.Log;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.Scanner;
 
 import ru.com.konstantinov.longboardlighting.ControllerVariables;
 import ru.com.konstantinov.longboardlighting.LedMode;
 import ru.com.konstantinov.longboardlighting.interfaces.ActionListener;
-import ru.com.konstantinov.longboardlighting.interfaces.ConnectionInterface;
 
 /**
  * Created by ceyler on 11.02.2018.
- * Thread for bluetooth communication
+ * Thread for sending data via Bluetooth
  */
 
-public class BluetoothThread extends Thread implements ConnectionInterface {
-    private final Scanner scanner;
+public class SendingThread extends Thread {
     private final Writer writer;
     private final ActionListener listener;
     private final Object syncObject;
@@ -34,10 +30,8 @@ public class BluetoothThread extends Thread implements ConnectionInterface {
     private volatile boolean isModeChanged = false;
     private volatile int brightness = 100;
     private volatile boolean isBrightnessChanged = false;
-    private volatile float voltage;
 
-    BluetoothThread(@NotNull InputStream inputStream, @NotNull OutputStream outputStream, @NotNull ActionListener listener, @NotNull Object syncObject) {
-        this.scanner = new Scanner(inputStream).useDelimiter("[@:#\\s]");
+    SendingThread(@NotNull OutputStream outputStream, @NotNull ActionListener listener, @NotNull Object syncObject) {
         this.writer = new OutputStreamWriter(outputStream);
         this.listener = listener;
         this.syncObject = syncObject;
@@ -47,11 +41,11 @@ public class BluetoothThread extends Thread implements ConnectionInterface {
     public void run() {
         while (true) {
             StringBuilder output = new StringBuilder("");
-            if(this.isModeChanged){
+            if (this.isModeChanged) {
                 output.append('#').append(ControllerVariables.MODE.getCode()).append(':').append(this.mode.getCode());
                 this.isModeChanged = false;
             }
-            if(this.isBrightnessChanged){
+            if (this.isBrightnessChanged) {
                 output.append('#').append(ControllerVariables.BRIGHTNESS.getCode()).append(':').append(this.brightness);
                 this.isBrightnessChanged = false;
             }
@@ -60,29 +54,15 @@ public class BluetoothThread extends Thread implements ConnectionInterface {
             try {
                 writer.write(output.toString());
                 writer.flush();
-                Log.w("LBBluetooth", "Sent: " + output.toString());
+                Log.w("LBSending", "Sent: " + output.toString());
             } catch (IOException e) {
                 listener.onAction(BluetoothAdapter.STATE_DISCONNECTED);
                 break;
             }
 
-            String data = "";
-            while (data.length() == 0){
-                data = scanner.next();
-            }
-            try {
-                int code = Integer.valueOf(data);
-
-                if (code == ControllerVariables.VOLTAGE.getCode()) {
-                    this.voltage = Float.valueOf(scanner.next());
-                }
-
-                this.listener.onAction(Connector.DATA_UPDATED);
-            } catch (NumberFormatException ignored) {}
-
             try {
                 synchronized (syncObject) {
-                    syncObject.wait(1000*60); // wait for a second
+                    syncObject.wait(1000); // wait for a sec or a data update
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -90,48 +70,17 @@ public class BluetoothThread extends Thread implements ConnectionInterface {
         }
     }
 
-    private void parserAnswer(String answer) {
-        String[] parsed = answer.split("#");
-        for (String aParsed : parsed) {
-
-            String[] variable = aParsed.split(":", 2);
-//            if (variable.length == 2) {
-//                Log.i("parserAnswer - variable", variable[0] + " = " + variable[1]);
-//                switch (Integer.getInteger(variable[0])){
-//                    case ControllerVariables.VOLTAGE:
-//                    float value = Float.valueOf(variable[1].trim());
-//                        BatteryIndicator
-//                    break;
-//
-//                    default:
-//                        break;
-//                }
-
-
-//            }
-        }
-    }
-
-
-    @Override
-    public void setMode(@NonNull LedMode mode) {
+    void setMode(@NonNull LedMode mode) {
         this.isModeChanged = true;
         this.mode = mode;
     }
 
-    @Override
-    public void setBrightness(int value) {
+    void setBrightness(int value) {
         this.isBrightnessChanged = true;
         this.brightness = value;
     }
 
-    @Override
-    public void setColor(@NonNull Color color) {
+    void setColor(@NonNull Color color) {
         throw new UnsupportedOperationException("Not ready yet :(");
-    }
-
-    @Override
-    public float getVoltage() {
-        return this.voltage;
     }
 }
