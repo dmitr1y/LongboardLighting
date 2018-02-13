@@ -67,11 +67,11 @@ public class MainActivity extends AppCompatActivity {
         batteryIndicator = new BatteryIndicator(this);
         connectionIndicator = new ConnectionIndicator(this);
 
+        brightnessValue = 100;
         brightnessIndicator = findViewById(R.id.brightness_indicator);
-
+        brightnessIndicator.setProgress(brightnessValue);
         headerText.setText(R.string.action_devices);
         batteryIndicator.hide();
-        brightnessValue = 150;
 
 //        TODO complete handler
         this.deviceFinder = new Finder(this, new ActionListener() {
