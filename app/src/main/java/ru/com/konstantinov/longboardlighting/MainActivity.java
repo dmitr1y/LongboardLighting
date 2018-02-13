@@ -68,11 +68,11 @@ public class MainActivity extends AppCompatActivity {
         batteryIndicator = new BatteryIndicator(this);
         connectionIndicator = new ConnectionIndicator(this);
 
-        brightnessIndicator=findViewById(R.id.brightness_indicator);
+        brightnessIndicator = findViewById(R.id.brightness_indicator);
 
         headerText.setText(R.string.action_devices);
         batteryIndicator.hide();
-        brightnessValue=150;
+        brightnessValue = 150;
 
 //        TODO complete handler
         this.deviceFinder = new Finder(this, new ActionListener() {
@@ -117,9 +117,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-                brightnessValue=seekBar.getProgress();
-//                TODO add sending data after change
-
+                brightnessValue = seekBar.getProgress();
+                connector.setBrightness(brightnessValue);
             }
         });
     }
@@ -128,12 +127,12 @@ public class MainActivity extends AppCompatActivity {
         return this.deviceFinder;
     }
 
-    public void setBluetoothSocket(BluetoothSocket _bluetoothSocket){
-        this.bluetoothSocket=_bluetoothSocket;
+    public void setBluetoothSocket(BluetoothSocket _bluetoothSocket) {
+        this.bluetoothSocket = _bluetoothSocket;
         this.connect();
     }
 
-    public void connect(){
+    public void connect() {
         this.connector = new Connector(this.bluetoothSocket, new ActionListener() {
             @Override
             public void onAction(int action) {
@@ -142,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public ConnectionInterface getConnector(){
+    public ConnectionInterface getConnector() {
         return this.connector;
     }
 
