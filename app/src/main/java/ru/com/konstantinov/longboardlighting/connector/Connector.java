@@ -51,10 +51,10 @@ public class Connector implements ConnectionInterface {
         }
 
         this.sendingThread = new SendingThread(outputStream, listener, syncObject);
-        this.sendingThread.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        this.sendingThread.execute();
 
         this.readingThread = new ReadingThread(inputStream, listener);
-        this.readingThread.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        this.readingThread.execute();
     }
 
     @Override
