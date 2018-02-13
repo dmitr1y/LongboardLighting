@@ -2,6 +2,7 @@ package ru.com.konstantinov.longboardlighting.connector;
 
 import android.bluetooth.BluetoothAdapter;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -21,7 +22,7 @@ import ru.com.konstantinov.longboardlighting.interfaces.ActionListener;
  * Thread for sending data via Bluetooth
  */
 
-public class SendingThread extends Thread {
+public class SendingThread extends AsyncTask<Void, Integer, Void> {
     private final Writer writer;
     private final ActionListener listener;
     private final Object syncObject;
@@ -37,8 +38,22 @@ public class SendingThread extends Thread {
         this.syncObject = syncObject;
     }
 
+    void setMode(@NonNull LedMode mode) {
+        this.isModeChanged = true;
+        this.mode = mode;
+    }
+
+    void setBrightness(int value) {
+        this.isBrightnessChanged = true;
+        this.brightness = value;
+    }
+
+    void setColor(@NonNull Color color) {
+        throw new UnsupportedOperationException("Not ready yet :(");
+    }
+
     @Override
-    public void run() {
+    protected Void doInBackground(Void... voids) {
         while (true) {
             StringBuilder output = new StringBuilder("");
             if (this.isModeChanged) {
@@ -56,7 +71,7 @@ public class SendingThread extends Thread {
                 writer.flush();
                 Log.w("LBSending", "Sent: " + output.toString());
             } catch (IOException e) {
-                listener.onAction(BluetoothAdapter.STATE_DISCONNECTED);
+                this.publishProgress(BluetoothAdapter.STATE_DISCONNECTED);
                 break;
             }
 
@@ -68,19 +83,11 @@ public class SendingThread extends Thread {
                 e.printStackTrace();
             }
         }
+        return null;
     }
 
-    void setMode(@NonNull LedMode mode) {
-        this.isModeChanged = true;
-        this.mode = mode;
-    }
-
-    void setBrightness(int value) {
-        this.isBrightnessChanged = true;
-        this.brightness = value;
-    }
-
-    void setColor(@NonNull Color color) {
-        throw new UnsupportedOperationException("Not ready yet :(");
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        listener.onAction(values[0]);
     }
 }
