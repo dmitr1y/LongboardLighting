@@ -65,6 +65,8 @@ public class DevicesListFragment extends ListFragment {
         Toast.makeText(getActivity(), getText(R.string.connecting_to)+": " + this.foundedDeviceArray[position].getName(), Toast.LENGTH_SHORT).show();
         BluetoothSocket socket = this.deviceFinder.ConnectToDevice(this.foundedDeviceArray[position]);
 
+        Log.w("Finder", String.valueOf(socket));
+
         ConnectionInterface connector = new Connector(socket, new ActionListener() {
             @Override
             public void onAction(int action) {
