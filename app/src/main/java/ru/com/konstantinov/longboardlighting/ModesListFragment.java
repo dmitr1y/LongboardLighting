@@ -29,10 +29,9 @@ public class ModesListFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        //Do your stuff..
         TextView textView = (TextView) v;
         String itemText = textView.getText().toString(); // получаем текст нажатого элемента
-        Toast.makeText(getActivity(), "выбран: " + Integer.toString(position) + " - " + LedMode.getModeByName(itemText).getCode(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Выбран: " + itemText, Toast.LENGTH_SHORT).show();
         ((MainActivity) getActivity()).getConnector().setMode(LedMode.getModeByName(itemText));
     }
 
