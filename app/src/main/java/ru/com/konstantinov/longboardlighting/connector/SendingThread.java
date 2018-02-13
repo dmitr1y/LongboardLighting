@@ -49,7 +49,7 @@ public class SendingThread extends Thread {
                 output.append('#').append(ControllerVariables.BRIGHTNESS.getCode()).append(':').append(this.brightness);
                 this.isBrightnessChanged = false;
             }
-            output.append("@");
+            output.append("#3:0@");
 
             try {
                 writer.write(output.toString());
