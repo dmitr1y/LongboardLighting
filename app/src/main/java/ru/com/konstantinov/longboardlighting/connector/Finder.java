@@ -36,6 +36,12 @@ public class Finder implements DeviceFinder, ActivityResultSubscriber {
 
     private BluetoothSocket socket = null;
 
+    /**
+     *
+     * @param activity main activity
+     * @param bluetoothActionsListener listener for actions
+     *
+     */
     public Finder(final MainActivity activity, final ActionListener bluetoothActionsListener) {
         this.listener = bluetoothActionsListener;
 

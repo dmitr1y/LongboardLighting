@@ -26,17 +26,23 @@ public class Connector implements ConnectionInterface {
 
     public static final int DATA_UPDATED = 4200;
 
-    public Connector(@NotNull BluetoothSocket socket, @NotNull ActionListener listener) {
+    /**
+     *
+     * @param connectedSocket connected bluetooth socket
+     * @param listener actions listener
+     * @throws IllegalArgumentException if socket not connected or connector can't get I/O streams
+     */
+    public Connector(@NotNull BluetoothSocket connectedSocket, @NotNull ActionListener listener) throws IllegalArgumentException{
         InputStream inputStream;
         OutputStream outputStream;
 
-        if (socket.isConnected()) {
+        if (connectedSocket.isConnected()) {
             try {
-                inputStream = socket.getInputStream();
-                outputStream = socket.getOutputStream();
+                inputStream = connectedSocket.getInputStream();
+                outputStream = connectedSocket.getOutputStream();
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new IllegalArgumentException("Socket isn't connected");
+                throw new IllegalArgumentException("Can't get I/O streams");
             }
         } else {
             throw new IllegalArgumentException("Socket isn't connected");
