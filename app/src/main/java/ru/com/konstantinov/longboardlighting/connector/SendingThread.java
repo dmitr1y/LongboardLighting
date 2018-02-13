@@ -64,7 +64,7 @@ public class SendingThread extends AsyncTask<Void, Integer, Void> {
                 output.append('#').append(ControllerVariables.BRIGHTNESS.getCode()).append(':').append(this.brightness);
                 this.isBrightnessChanged = false;
             }
-            output.append("#3:0@");
+            output.append("#3:3@");
 
             try {
                 writer.write(output.toString());
@@ -77,7 +77,7 @@ public class SendingThread extends AsyncTask<Void, Integer, Void> {
 
             try {
                 synchronized (syncObject) {
-                    syncObject.wait(1000); // wait for a sec or a data update
+                    syncObject.wait(1000*30); // wait for a sec or a data update
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

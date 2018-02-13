@@ -70,9 +70,15 @@ public class MainActivity extends AppCompatActivity {
                     isConnected = false;
                     connectionIndicator.setOff();
                     batteryIndicator.hide();
+                    device_list.setVisibility(View.VISIBLE); // hide devices list
+                    mode_list.setVisibility(View.GONE); // show modes list
+                    headerText.setText(R.string.action_devices);
                     break;
                 case Connector.DATA_UPDATED:
+                    Log.i("BatteryIndicator", "onAction: DATA_UPDATED");
                     batteryIndicator.setVoltageView(connector.getVoltage());
+                    Log.i("BatteryIndicator", "voltage: "+connector.getVoltage());
+
                     break;
                 default:
                     break;
@@ -141,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
     public void connect() {
         try {
             this.connector = new Connector(this.bluetoothSocket, this.listener);
+            this.connector.setBrightness(100);
+            this.connector.setMode(LedMode.RAINBOW_CYCLE);
         } catch (IllegalArgumentException e){
             Log.e("BT connector", e.getMessage() );
             Toast.makeText(this, getString(R.string.unable_to_connect)+". "+getString(R.string.check_bt_device), Toast.LENGTH_SHORT).show();
