@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 import org.jetbrains.annotations.NotNull;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     batteryIndicator.show();
                     device_list.setVisibility(View.GONE); // hide devices list
                     mode_list.setVisibility(View.VISIBLE); // show modes list
-//                        TODO send empty message for receiving battery voltage
+                    headerText.setText(R.string.action_modes);
                     break;
                 case BluetoothAdapter.STATE_DISCONNECTED:
                     isConnected = false;
@@ -138,7 +139,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void connect() {
-        this.connector = new Connector(this.bluetoothSocket, this.listener);
+        try {
+            this.connector = new Connector(this.bluetoothSocket, this.listener);
+        } catch (IllegalArgumentException e){
+            Log.e("BT connector", e.getMessage() );
+            Toast.makeText(this, getString(R.string.unable_to_connect)+". "+getString(R.string.check_bt_device), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public ConnectionInterface getConnector() {
