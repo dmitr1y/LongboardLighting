@@ -4,7 +4,9 @@ import android.app.ListFragment;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
+import android.system.ErrnoException;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -25,15 +27,12 @@ import ru.com.konstantinov.longboardlighting.interfaces.DeviceFinder;
 
 public class DevicesListFragment extends ListFragment {
 
-
-
     private BluetoothDevice[] foundedDeviceArray;
     private DeviceFinder deviceFinder;
 
     public DevicesListFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -64,13 +63,7 @@ public class DevicesListFragment extends ListFragment {
         String itemText = textView.getText().toString(); // получаем текст нажатого элемента
         Toast.makeText(getActivity(), getText(R.string.connecting_to)+": " + this.foundedDeviceArray[position].getName(), Toast.LENGTH_SHORT).show();
         BluetoothSocket socket = this.deviceFinder.ConnectToDevice(this.foundedDeviceArray[position]);
-
-        ConnectionInterface connector = new Connector(socket, new ActionListener() {
-            @Override
-            public void onAction(int action) {
-                Log.w("Finder", "Action: " + action);
-            }
-        });
+        ((MainActivity)getActivity()).setBluetoothSocket(socket);
     }
 
 }

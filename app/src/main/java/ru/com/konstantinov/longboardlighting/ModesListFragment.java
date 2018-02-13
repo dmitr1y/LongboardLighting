@@ -1,6 +1,7 @@
 package ru.com.konstantinov.longboardlighting;
 
 import android.app.ListFragment;
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 
+import ru.com.konstantinov.longboardlighting.connector.Connector;
 import ru.com.konstantinov.longboardlighting.dummy.TestConnector;
 import ru.com.konstantinov.longboardlighting.interfaces.ConnectionInterface;
 
@@ -24,7 +26,6 @@ public class ModesListFragment extends ListFragment {
     public ModesListFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -42,8 +43,7 @@ public class ModesListFragment extends ListFragment {
         TextView textView = (TextView) v;
         String itemText = textView.getText().toString(); // получаем текст нажатого элемента
         Toast.makeText(getActivity(), "выбран: " + Integer.toString(position) + " - " + LedMode.getModeByName(itemText).getCode(), Toast.LENGTH_SHORT).show();
-        ConnectionInterface connector = new TestConnector();
-        connector.setMode(LedMode.getModeByName(itemText));
+        ((MainActivity) getActivity()).getConnector().setMode(LedMode.getModeByName(itemText));
     }
 
     public static String[] getNames(Class<? extends Enum<?>> e) {

@@ -2,6 +2,7 @@ package ru.com.konstantinov.longboardlighting;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,9 +22,11 @@ import java.util.Map;
 
 import ru.com.konstantinov.longboardlighting.Indicators.BatteryIndicator;
 import ru.com.konstantinov.longboardlighting.Indicators.ConnectionIndicator;
+import ru.com.konstantinov.longboardlighting.connector.Connector;
 import ru.com.konstantinov.longboardlighting.connector.Finder;
 import ru.com.konstantinov.longboardlighting.interfaces.ActionListener;
 import ru.com.konstantinov.longboardlighting.interfaces.ActivityResultSubscriber;
+import ru.com.konstantinov.longboardlighting.interfaces.ConnectionInterface;
 import ru.com.konstantinov.longboardlighting.interfaces.DeviceFinder;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean isConnected = false;
     private BatteryIndicator batteryIndicator;
     private ConnectionIndicator connectionIndicator;
+
+    BluetoothSocket bluetoothSocket;
+    ConnectionInterface connector;
 
     private DiscreteSeekBar brightnessIndicator;
     private int brightnessValue;
@@ -113,12 +119,31 @@ public class MainActivity extends AppCompatActivity {
             public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
                 brightnessValue=seekBar.getProgress();
 //                TODO add sending data after change
+
             }
         });
     }
 
     public DeviceFinder getFinder() {
         return this.deviceFinder;
+    }
+
+    public void setBluetoothSocket(BluetoothSocket _bluetoothSocket){
+        this.bluetoothSocket=_bluetoothSocket;
+        this.connect();
+    }
+
+    public void connect(){
+        this.connector = new Connector(this.bluetoothSocket, new ActionListener() {
+            @Override
+            public void onAction(int action) {
+                Log.w("MainActivity", " ConnectionInterface connector - Action: " + action);
+            }
+        });
+    }
+
+    public ConnectionInterface getConnector(){
+        return this.connector;
     }
 
     @Override
