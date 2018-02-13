@@ -65,6 +65,8 @@ public class BluetoothThread extends Thread implements ConnectionInterface {
                 }else {
                     Log.w("Finder", "Unknown code: " + code);
                 }
+
+                this.listener.onAction(Connector.DATA_UPDATED);
             } catch (NumberFormatException ex){
                 Log.w("Finder", "Something went wrong!");
             }

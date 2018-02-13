@@ -24,6 +24,8 @@ public class Connector implements ConnectionInterface {
     private final Object syncObject = new Object();
     private final BluetoothThread thread;
 
+    public static final int DATA_UPDATED = 4200;
+
     public Connector(@NotNull BluetoothSocket socket, @NotNull ActionListener listener) {
         InputStream inputStream;
         OutputStream outputStream;
