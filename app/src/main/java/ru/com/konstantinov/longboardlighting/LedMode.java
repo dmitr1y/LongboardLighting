@@ -41,8 +41,6 @@ public enum LedMode {
     KITT(28, "Случайные вспышки красного в вертикаьной плоскости"), // random flashes of red in the vertical plane
     MATRIX(29, "Зелёненькие бегают по кругу случайно"), // the greens run around in circles by accident
     NEW_RAINBOW_LOOP(30, "Крутая плавная вращающаяся радуга"), // steep smooth rotating rainbow
-    STRIP_MARCH_CCW(31, "Чёт сломалось 1"), // even broke
-    STRIP_MARCH_CW(32, "Чёт сломалось 2"), // even broke
     COLOR_WIPE(33, "Плавное заполнение цветом"), // smooth filling with color
     CYLON_BOUNCE(34, "Бегающие светодиоды"), // running LEDs
     FIRE(35, "Линейный огонь"), // Linear fire
@@ -56,8 +54,7 @@ public enum LedMode {
     THEATER_CHASE_RAINBOW(43, "Бегущие каждые 3 радуга"), // running every 3 rainbows (NUMBER OF LEDS SHOULD BE BACK 3)
     STROBE(44, "Стробоскоп"), // stroboscope
     BOUNCING_BALLS(45, "Прыгающие мячики"), // jumping balls
-    BOUNCING_COLORED_BALLS(46, "Прыгающие мячики цветные"), // jumping colored balls
-    DEMO_MODE_A(888, "Плинное демо"), // a long demo
+    BOUNCING_COLORED_BALLS(46, "Прыгающие мячики цветные"), // jumping colored ball
     DEMO_MODE_B(889, "Короткое демо"), // short demo
     PAUSE(999, "Пауза"); // pause
 
