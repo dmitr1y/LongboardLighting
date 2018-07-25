@@ -27,7 +27,7 @@ public class SendingThread extends AsyncTask<Void, Integer, Void> {
     private final ActionListener listener;
     private final Object syncObject;
 
-    private volatile LedMode mode = LedMode.RAINBOW_FADE;
+    private volatile LedMode mode = LedMode.ALL_OFF;
     private volatile boolean isModeChanged = false;
     private volatile int brightness = 100;
     private volatile boolean isBrightnessChanged = false;
@@ -74,12 +74,19 @@ public class SendingThread extends AsyncTask<Void, Integer, Void> {
                 this.publishProgress(BluetoothAdapter.STATE_DISCONNECTED);
                 break;
             }
+            Log.w("LBSending", "after sent: " + output.toString());
 
             try {
                 synchronized (syncObject) {
+                    Log.w("LBSending", "waiting for sync....");
+
                     syncObject.wait(1000*30); // wait for a sec or a data update
+                    Log.w("LBSending", "waiting OK");
+
                 }
             } catch (InterruptedException e) {
+                Log.w("LBSending", "fail sync: " +e.getMessage());
+
                 e.printStackTrace();
             }
         }

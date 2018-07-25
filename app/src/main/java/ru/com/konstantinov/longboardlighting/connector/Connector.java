@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothSocket;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -62,6 +63,8 @@ public class Connector implements ConnectionInterface {
         this.sendingThread.setMode(mode);
 
         synchronized (this.syncObject){
+            Log.w("Connector", "syncing");
+
             this.syncObject.notify();
         }
     }
