@@ -73,14 +73,18 @@ public class SendingThread extends AsyncTask<Void, Integer, Void> {
             }
             if (this.isSpeedChanged) {
                 output.append('#').append(ControllerVariables.SPEED.getCode()).append(':').append(this.speed);
-                this.isBrightnessChanged = false;
+                this.isSpeedChanged = false;
             }
-//            output.append("#3:3@");
+            output.append("@");
+
+            String data = output.toString();
 
             try {
-                writer.write(output.toString());
-                writer.flush();
-                Log.w("LBSending", "Sent: " + output.toString());
+                if (!data.isEmpty()) {
+                    writer.write(data);
+                    writer.flush();
+                    Log.w("LBSending", "Sent: " + output.toString());
+                }
             } catch (IOException e) {
                 this.publishProgress(BluetoothAdapter.STATE_DISCONNECTED);
                 break;
