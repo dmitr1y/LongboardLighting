@@ -32,38 +32,6 @@
                     android:text="@string/app_name"
                     android:textSize="24sp" />
 
-                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:id="@+id/battery_view"
-                    android:layout_width="40dp"
-                    android:gravity="right"
-                    android:layout_height="match_parent">
-
-                    <com.mikhaellopez.circularprogressbar.CircularProgressBar
-                        android:id="@+id/battery_progress_bar"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="3dp"
-                        android:gravity="center_vertical"
-                        app:cpb_background_progressbar_color="@color/cpb_background_progressbar_color"
-                        app:cpb_background_progressbar_width="@dimen/cpb_background_progressbar_width"
-                        app:cpb_progressbar_color="@color/cpb_progressbar_color"
-                        app:cpb_progressbar_width="@dimen/cpb_progressbar_width" />
-
-                    <TextView
-                        android:id="@+id/battery_progress_text"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_alignBottom="@id/battery_progress_bar"
-                        android:layout_alignLeft="@id/battery_progress_bar"
-                        android:layout_alignRight="@id/battery_progress_bar"
-                        android:layout_alignTop="@id/battery_progress_bar"
-                        android:background="#00000000"
-                        android:gravity="center_vertical"
-                        android:textAlignment="center"
-                        android:text="65"
-                        android:textSize="10sp" />
-                </RelativeLayout>
                 <com.mikhaellopez.circularprogressbar.CircularProgressBar
                     android:id="@+id/connection_status_bar"
                     android:layout_width="match_parent"

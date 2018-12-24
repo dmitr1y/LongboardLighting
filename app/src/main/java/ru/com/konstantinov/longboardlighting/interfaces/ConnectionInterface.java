@@ -32,12 +32,6 @@ public interface ConnectionInterface {
     void setColor(@NotNull Color color);
 
     /**
-     *
-     * @return current voltage on controller with accuracy 2 decimal places
-     */
-    float getVoltage();
-
-    /**
      * @param value from 0 to 255
      */
     void setSpeed(int value);

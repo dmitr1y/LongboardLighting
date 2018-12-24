@@ -31,11 +31,6 @@ public class TestConnector implements ConnectionInterface {
     }
 
     @Override
-    public float getVoltage() {
-        return 42;
-    }
-
-    @Override
     public void setSpeed(int value) {
         Log.i(testTag, "New speed is " + value);
     }

@@ -17,10 +17,10 @@ import android.widget.Toast;
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import ru.com.konstantinov.longboardlighting.Indicators.BatteryIndicator;
 import ru.com.konstantinov.longboardlighting.Indicators.ConnectionIndicator;
 import ru.com.konstantinov.longboardlighting.connector.Connector;
 import ru.com.konstantinov.longboardlighting.connector.Finder;
@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView headerText;
     private DeviceFinder deviceFinder;
     private boolean isConnected = false;
-    private BatteryIndicator batteryIndicator;
     private ConnectionIndicator connectionIndicator;
 
     private ActionListener listener = new ActionListener() {
@@ -56,12 +55,10 @@ public class MainActivity extends AppCompatActivity {
                 case BluetoothAdapter.STATE_OFF:
 //                        TODO try to enable BT
                     connectionIndicator.setOff();
-                    batteryIndicator.hide();
                     break;
                 case BluetoothAdapter.STATE_CONNECTED:
                     isConnected = true;
                     connectionIndicator.setOn();
-                    batteryIndicator.show();
                     device_list.setVisibility(View.GONE); // hide devices list
                     mode_list.setVisibility(View.VISIBLE); // show modes list
                     headerText.setText(R.string.action_modes);
@@ -69,15 +66,11 @@ public class MainActivity extends AppCompatActivity {
                 case BluetoothAdapter.STATE_DISCONNECTED:
                     isConnected = false;
                     connectionIndicator.setOff();
-                    batteryIndicator.hide();
                     device_list.setVisibility(View.VISIBLE); // hide devices list
                     mode_list.setVisibility(View.GONE); // show modes list
                     headerText.setText(R.string.action_devices);
                     break;
                 case Connector.DATA_UPDATED:
-                    Log.i("BatteryIndicator", "onAction: DATA_UPDATED");
-                    batteryIndicator.setVoltageView(connector.getVoltage());
-                    Log.i("BatteryIndicator", "voltage: " + connector.getVoltage());
 
                     break;
                 default:
@@ -109,19 +102,17 @@ public class MainActivity extends AppCompatActivity {
         devicesListFragment = new DevicesListFragment();
         modesListFragment = new ModesListFragment();
 
-        batteryIndicator = new BatteryIndicator(this);
         connectionIndicator = new ConnectionIndicator(this);
 
-        brightnessValue = 100;
+        brightnessValue = 50;
         brightnessIndicator = findViewById(R.id.brightness_indicator);
         brightnessIndicator.setProgress(brightnessValue);
 
-        speedValue = 50;
+        speedValue = 250;
         speedIndicator = findViewById(R.id.speed_indicator);
         speedIndicator.setProgress(speedValue);
 
         headerText.setText(R.string.action_devices);
-        batteryIndicator.hide();
 
         this.deviceFinder = new Finder(this, this.listener);
 
@@ -154,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-                speedValue = seekBar.getProgress();
+                speedValue = seekBar.getMax() - seekBar.getProgress();
                 connector.setSpeed(speedValue);
             }
         });
@@ -177,6 +168,15 @@ public class MainActivity extends AppCompatActivity {
         } catch (IllegalArgumentException e) {
             Log.e("BT connector", e.getMessage());
             Toast.makeText(this, getString(R.string.unable_to_connect) + ". " + getString(R.string.check_bt_device), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void disconnect() {
+        try {
+            this.connector = null;
+            this.bluetoothSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -205,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.action_devices:
+                this.disconnect();
                 this.device_list.setVisibility(View.VISIBLE);
                 this.mode_list.setVisibility(View.GONE);
                 this.headerText.setText(R.string.action_devices);

@@ -88,11 +88,6 @@ public class Connector implements ConnectionInterface {
     }
 
     @Override
-    public float getVoltage() {
-        return this.readingThread.getVoltage();
-    }
-
-    @Override
     public void setSpeed(int value) {
         this.sendingThread.setSpeed(value);
 
