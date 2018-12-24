@@ -32,8 +32,6 @@ public enum LedMode {
     RGB_ROTATION(19, "RGB_ROTATION"),
     EMS_LIGHTS_STROBE(20, "EMS_LIGHTS_STROBE");
 
-
-
     private final int code;
     private final String name;
 

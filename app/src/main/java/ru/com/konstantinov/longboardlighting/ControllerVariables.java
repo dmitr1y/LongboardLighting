@@ -9,8 +9,7 @@ public enum ControllerVariables {
     MODE(0), // led mode
     BRIGHTNESS(1), // led brightness
     COLOR(2), // led color
-    VOLTAGE(3),
-    SPEED(4); // battery voltage
+    SPEED(3); // battery voltage
 
     private final int code;
 

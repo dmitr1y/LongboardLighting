@@ -20,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import ru.com.konstantinov.longboardlighting.Indicators.BatteryIndicator;
 import ru.com.konstantinov.longboardlighting.Indicators.ConnectionIndicator;
 import ru.com.konstantinov.longboardlighting.connector.Connector;
 import ru.com.konstantinov.longboardlighting.connector.Finder;
@@ -42,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView headerText;
     private DeviceFinder deviceFinder;
     private boolean isConnected = false;
-    private BatteryIndicator batteryIndicator;
     private ConnectionIndicator connectionIndicator;
 
     private ActionListener listener = new ActionListener() {
@@ -56,12 +54,10 @@ public class MainActivity extends AppCompatActivity {
                 case BluetoothAdapter.STATE_OFF:
 //                        TODO try to enable BT
                     connectionIndicator.setOff();
-                    batteryIndicator.hide();
                     break;
                 case BluetoothAdapter.STATE_CONNECTED:
                     isConnected = true;
                     connectionIndicator.setOn();
-                    batteryIndicator.show();
                     device_list.setVisibility(View.GONE); // hide devices list
                     mode_list.setVisibility(View.VISIBLE); // show modes list
                     headerText.setText(R.string.action_modes);
@@ -69,15 +65,11 @@ public class MainActivity extends AppCompatActivity {
                 case BluetoothAdapter.STATE_DISCONNECTED:
                     isConnected = false;
                     connectionIndicator.setOff();
-                    batteryIndicator.hide();
                     device_list.setVisibility(View.VISIBLE); // hide devices list
                     mode_list.setVisibility(View.GONE); // show modes list
                     headerText.setText(R.string.action_devices);
                     break;
                 case Connector.DATA_UPDATED:
-                    Log.i("BatteryIndicator", "onAction: DATA_UPDATED");
-                    batteryIndicator.setVoltageView(connector.getVoltage());
-                    Log.i("BatteryIndicator", "voltage: " + connector.getVoltage());
 
                     break;
                 default:
@@ -109,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
         devicesListFragment = new DevicesListFragment();
         modesListFragment = new ModesListFragment();
 
-        batteryIndicator = new BatteryIndicator(this);
         connectionIndicator = new ConnectionIndicator(this);
 
         brightnessValue = 100;
@@ -121,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
         speedIndicator.setProgress(speedValue);
 
         headerText.setText(R.string.action_devices);
-        batteryIndicator.hide();
 
         this.deviceFinder = new Finder(this, this.listener);
 

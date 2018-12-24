@@ -49,9 +49,9 @@ class ReadingThread extends AsyncTask<Void, Integer, Void> {
                 try {
                     int code = Integer.valueOf(data);
 
-                    if (code == ControllerVariables.VOLTAGE.getCode()) {
-                        this.voltage = Float.valueOf(scanner.next());
-                    }
+//                    if (code == ControllerVariables.VOLTAGE.getCode()) {
+//                        this.voltage = Float.valueOf(scanner.next());
+//                    }
 
                     this.publishProgress(Connector.DATA_UPDATED);
                 } catch (NumberFormatException ignored) {}
