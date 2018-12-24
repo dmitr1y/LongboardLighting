@@ -104,13 +104,13 @@ public class MainActivity extends AppCompatActivity {
 
         connectionIndicator = new ConnectionIndicator(this);
 
-        brightnessValue = 50;
+        brightnessValue = 150;
         brightnessIndicator = findViewById(R.id.brightness_indicator);
         brightnessIndicator.setProgress(brightnessValue);
 
-        speedValue = 250;
+        speedValue = 50;
         speedIndicator = findViewById(R.id.speed_indicator);
-        speedIndicator.setProgress(speedValue);
+        speedIndicator.setProgress(255 - speedValue);
 
         headerText.setText(R.string.action_devices);
 
