@@ -91,4 +91,13 @@ public class Connector implements ConnectionInterface {
     public float getVoltage() {
         return this.readingThread.getVoltage();
     }
+
+    @Override
+    public void setSpeed(int value) {
+        this.sendingThread.setSpeed(value);
+
+        synchronized (this.syncObject) {
+            this.syncObject.notify();
+        }
+    }
 }

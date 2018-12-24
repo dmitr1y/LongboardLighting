@@ -36,4 +36,9 @@ public interface ConnectionInterface {
      * @return current voltage on controller with accuracy 2 decimal places
      */
     float getVoltage();
+
+    /**
+     * @param value from 0 to 255
+     */
+    void setSpeed(int value);
 }

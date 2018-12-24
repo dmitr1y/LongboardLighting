@@ -29,6 +29,26 @@
             />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_marginStart="7dp"
+            android:text="@string/action_speed" />
+
+        <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+            android:id="@+id/speed_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:dsb_min="0"
+            app:dsb_max="255" />
+    </LinearLayout>
     <fragment
         android:name="ru.com.konstantinov.longboardlighting.ModesListFragment"
         android:layout_width="match_parent"

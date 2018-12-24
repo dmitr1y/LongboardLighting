@@ -92,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
     private DiscreteSeekBar brightnessIndicator;
     private int brightnessValue;
 
+    private DiscreteSeekBar speedIndicator;
+    private int speedValue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
         brightnessValue = 100;
         brightnessIndicator = findViewById(R.id.brightness_indicator);
         brightnessIndicator.setProgress(brightnessValue);
+
+        speedValue = 50;
+        speedIndicator = findViewById(R.id.speed_indicator);
+        speedIndicator.setProgress(speedValue);
+
         headerText.setText(R.string.action_devices);
         batteryIndicator.hide();
 
@@ -131,6 +139,23 @@ public class MainActivity extends AppCompatActivity {
             public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
                 brightnessValue = seekBar.getProgress();
                 connector.setBrightness(brightnessValue);
+            }
+        });
+
+        speedIndicator.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
+                speedValue = seekBar.getProgress();
+                connector.setSpeed(speedValue);
             }
         });
     }

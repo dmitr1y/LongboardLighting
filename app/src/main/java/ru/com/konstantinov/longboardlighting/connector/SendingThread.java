@@ -31,6 +31,8 @@ public class SendingThread extends AsyncTask<Void, Integer, Void> {
     private volatile boolean isModeChanged = false;
     private volatile int brightness = 100;
     private volatile boolean isBrightnessChanged = false;
+    private volatile int speed = 100;
+    private volatile boolean isSpeedChanged = false;
 
     SendingThread(@NotNull OutputStream outputStream, @NotNull ActionListener listener, @NotNull Object syncObject) {
         this.writer = new OutputStreamWriter(outputStream);
@@ -46,6 +48,11 @@ public class SendingThread extends AsyncTask<Void, Integer, Void> {
     void setBrightness(int value) {
         this.isBrightnessChanged = true;
         this.brightness = value;
+    }
+
+    void setSpeed(int value) {
+        this.isSpeedChanged = true;
+        this.speed = value;
     }
 
     void setColor(@NonNull Color color) {
@@ -64,7 +71,11 @@ public class SendingThread extends AsyncTask<Void, Integer, Void> {
                 output.append('#').append(ControllerVariables.BRIGHTNESS.getCode()).append(':').append(this.brightness);
                 this.isBrightnessChanged = false;
             }
-            output.append("#3:3@");
+            if (this.isSpeedChanged) {
+                output.append('#').append(ControllerVariables.SPEED.getCode()).append(':').append(this.speed);
+                this.isBrightnessChanged = false;
+            }
+//            output.append("#3:3@");
 
             try {
                 writer.write(output.toString());

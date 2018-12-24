@@ -10,4 +10,5 @@
     <string name="ok">OK</string>
     <string name="unable_to_connect">Не удалось подключиться</string>
     <string name="check_bt_device">Убедитесь, что устройство доступно</string>
+    <string name="action_speed">Скорость</string>
 </resources>
