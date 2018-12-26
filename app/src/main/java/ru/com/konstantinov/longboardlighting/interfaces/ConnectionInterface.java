@@ -14,19 +14,16 @@ import ru.com.konstantinov.longboardlighting.LedMode;
 
 public interface ConnectionInterface {
     /**
-     *
      * @param mode - mode for led
      */
     void setMode(@NotNull LedMode mode);
 
     /**
-     *
      * @param value from 0 to 255
      */
     void setBrightness(int value);
 
     /**
-     *
      * @param color color value
      */
     void setColor(@NotNull Color color);

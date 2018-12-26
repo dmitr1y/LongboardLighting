@@ -31,4 +31,5 @@ dependencies {
     implementation 'org.jetbrains:annotations-java5:15.0'
     implementation 'com.mikhaellopez:circularprogressbar:1.1.1'
     implementation 'org.adw.library:discrete-seekbar:1.0.1'
+    implementation 'com.github.skydoves:colorpickerpreference:1.0.2'
 }

@@ -9,7 +9,8 @@ public enum ControllerVariables {
     MODE(0), // led mode
     BRIGHTNESS(1), // led brightness
     COLOR(2), // led color
-    SPEED(3); // battery voltage
+    SPEED(3),
+    UNKNOWN(999); // battery voltage
 
     private final int code;
 
@@ -17,6 +18,12 @@ public enum ControllerVariables {
         this.code = code;
     }
 
+    public static ControllerVariables getControllerVariablesFromId(int id) {
+        for (ControllerVariables type : values()) {
+            if (type.code == id) return type;
+        }
+        return UNKNOWN;
+    }
     public int getCode() {
         return code;
     }

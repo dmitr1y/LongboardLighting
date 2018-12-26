@@ -5,6 +5,9 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -36,9 +39,12 @@ public class MainActivity extends AppCompatActivity {
 
     private DevicesListFragment devicesListFragment;
     private ModesListFragment modesListFragment;
+    private SettingsFragment settingsFragment;
 
     private View mode_list;
     private View device_list;
+    private View settings_view;
+
     private TextView headerText;
     private DeviceFinder deviceFinder;
     private boolean isConnected = false;
@@ -60,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                     isConnected = true;
                     connectionIndicator.setOn();
                     device_list.setVisibility(View.GONE); // hide devices list
+                    settings_view.setVisibility(View.GONE); // hide devices list
                     mode_list.setVisibility(View.VISIBLE); // show modes list
                     headerText.setText(R.string.action_modes);
                     break;
@@ -67,11 +74,15 @@ public class MainActivity extends AppCompatActivity {
                     isConnected = false;
                     connectionIndicator.setOff();
                     device_list.setVisibility(View.VISIBLE); // hide devices list
+                    settings_view.setVisibility(View.GONE); // hide devices list
                     mode_list.setVisibility(View.GONE); // show modes list
                     headerText.setText(R.string.action_devices);
                     break;
                 case Connector.DATA_UPDATED:
-
+                    device_list.setVisibility(View.GONE); // hide devices list
+                    settings_view.setVisibility(View.VISIBLE); // hide devices list
+                    mode_list.setVisibility(View.GONE); // show modes list
+                    headerText.setText(R.string.action_settings);
                     break;
                 default:
                     break;
@@ -96,11 +107,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         device_list = findViewById(R.id.devices_list_view);
-        mode_list = findViewById(R.id.modes_list_view);
+        mode_list = findViewById(R.id.modes_fragment);
+        settings_view = findViewById(R.id.settings_fragment);
         headerText = findViewById(R.id.headerText);
 
         devicesListFragment = new DevicesListFragment();
         modesListFragment = new ModesListFragment();
+        settingsFragment = new SettingsFragment();
 
         connectionIndicator = new ConnectionIndicator(this);
 
@@ -214,6 +227,9 @@ public class MainActivity extends AppCompatActivity {
                 this.device_list.setVisibility(View.GONE);
                 this.mode_list.setVisibility(View.VISIBLE);
                 this.headerText.setText(R.string.action_modes);
+                break;
+            case R.id.action_settings:
+
                 break;
             default:
                 break;

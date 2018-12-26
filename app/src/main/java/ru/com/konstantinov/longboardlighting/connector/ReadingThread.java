@@ -2,6 +2,7 @@ package ru.com.konstantinov.longboardlighting.connector;
 
 import android.bluetooth.BluetoothAdapter;
 import android.os.AsyncTask;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +24,10 @@ class ReadingThread extends AsyncTask<Void, Integer, Void> {
     private final ActionListener listener;
 
     private volatile float voltage;
+    private volatile int mode;
+    private volatile int brightness;
+    private volatile int speed;
+    private volatile String color;
 
     ReadingThread(@NotNull InputStream inputStream, @NotNull ActionListener listener) {
         this.scanner = new Scanner(inputStream).useDelimiter("[#:@\\s]");
@@ -48,10 +53,27 @@ class ReadingThread extends AsyncTask<Void, Integer, Void> {
 
                 try {
                     int code = Integer.valueOf(data);
-
+                    ControllerVariables var_code = ControllerVariables.getControllerVariablesFromId(code);
 //                    if (code == ControllerVariables.VOLTAGE.getCode()) {
 //                        this.voltage = Float.valueOf(scanner.next());
 //                    }
+                    switch (var_code) {
+                        case MODE:
+                            this.mode = Integer.valueOf(scanner.next());
+                            break;
+                        case BRIGHTNESS:
+                            this.brightness = Integer.valueOf(scanner.next());
+                            break;
+                        case COLOR:
+                            this.color = scanner.next();
+                            break;
+                        case SPEED:
+                            this.speed = Integer.valueOf(scanner.next());
+                            break;
+                        case UNKNOWN:
+                        default:
+                            break;
+                    }
 
                     this.publishProgress(Connector.DATA_UPDATED);
                 } catch (NumberFormatException ignored) {}

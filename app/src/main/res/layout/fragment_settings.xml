@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    android:id="@+id/settings_fragment"
+    android:padding="7dp"
+    tools:context="SettingsFragment">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.03" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/action_settings"
+        android:textColor="@color/plainText"
+        android:textSize="@dimen/h1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.119"
+        app:layout_constraintStart_toStartOf="@+id/brightness_group"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_settings" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/brightness_group"
+        app:layout_constraintStart_toStartOf="@+id/speed_group"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_marginStart="7dp"
+            android:text="@string/action_brightness" />
+
+        <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+            android:id="@+id/brightness_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:dsb_min="0"
+            app:dsb_max="255" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/speed_group"
+        app:layout_constraintStart_toStartOf="@+id/colorPickerView"
+        app:layout_constraintTop_toBottomOf="@+id/brightness_group"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_marginStart="7dp"
+            android:text="@string/action_speed" />
+
+        <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+            android:id="@+id/speed_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:dsb_min="0"
+            app:dsb_max="255" />
+    </LinearLayout>
+
+    <com.skydoves.colorpickerpreference.ColorPickerView
+        android:id="@+id/colorPickerView"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speed_group"
+        app:palette="@drawable/palette"
+        app:selector="@drawable/wheel" />
+
+    <LinearLayout
+        android:id="@+id/cur_color"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/colorPickerView" />
+</android.support.constraint.ConstraintLayout>

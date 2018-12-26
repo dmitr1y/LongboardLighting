@@ -7,4 +7,5 @@
     <color name="cpb_progressbar_color">#30a900</color>
     <color name="background_connection_color">#a71313</color>
     <color name="connection_color">#30a900</color>
+    <color name="plainText">#000</color>
 </resources>
