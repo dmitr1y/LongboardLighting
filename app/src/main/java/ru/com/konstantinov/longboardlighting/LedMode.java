@@ -21,16 +21,18 @@ public enum LedMode {
     HALLOWEEN_EYES(8, "Halloween Eyes"),
     NEW_KITT(9, "NEW_KITT"),
     RAINBOW_CYCLE(10, "Вращающаяся радуга"),
-    TWINKLE_RANDOM(11, "TWINKLE_RANDOM"),
-    RUNNING_LIGHTS(12, "RUNNING_LIGHTS"),
+    TWINKLE_RANDOM(11, "Цветные блестки"),
+    RUNNING_LIGHTS(12, "Бегущие огни"),
     SNOW_SPARKLE(13, "SNOW_SPARKLE"),
     SPARKLE(14, "SPARKLE"),
-    STROBE(15, "STROBE"),
+    STROBE(15, "Стробоскоп"),
     THEATER_CHASE_RAINBOW(16, "THEATER_CHASE_RAINBOW"),
     THEATER_CHASE(17, "THEATER_CHASE"),
-    TWINKLE(18, "TWINKLE"),
-    RGB_ROTATION(19, "RGB_ROTATION"),
-    EMS_LIGHTS_STROBE(20, "EMS_LIGHTS_STROBE");
+    TWINKLE(18, "Красные блетски"),
+    RGB_ROTATION(19, "RGB ROTATION"),
+    EMS_LIGHTS_STROBE(20, "Полицейский стробоскоп"),
+    SOUND_REACTIVE(21, "Светомузыка"),
+    FILL_GRADIENT(22, "Заполнение градиентом");
 
     private final int code;
     private final String name;
